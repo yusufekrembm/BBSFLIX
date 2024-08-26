@@ -1,4 +1,4 @@
-package com.bbs.bbsflix;
+package com.bbs.bbsflix.Entity;
 
 import java.util.List;
 
