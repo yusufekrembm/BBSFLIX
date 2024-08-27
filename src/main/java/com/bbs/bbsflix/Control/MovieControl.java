@@ -35,7 +35,19 @@ public class MovieControl {
             return new MovieEntity();
         }
     }
-    
+
+    @GetMapping("/orderByTitleAsc")
+    public List<ResultsEntity> orderMoviesByTitleAsc() {
+        try {
+            MovieEntity movieEntity = movieService.getMovies();
+            return movieService.orderMoviesByTitleAsc(movieEntity.getResults());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return List.of(); // Hata durumunda boş liste döndür
+        }
+    }
+
+
 
 
 }

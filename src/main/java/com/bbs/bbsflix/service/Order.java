@@ -1,14 +1,12 @@
 package com.bbs.bbsflix.service;
 
 import com.bbs.bbsflix.model.MovieEntity;
+import com.bbs.bbsflix.model.ResultsEntity;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class Order {
-
-    public List<MovieEntity> getMovies(){
-        return List.of();
-    }
 
     public List<MovieEntity> orderByDurationAscending(){
         return List.of();
@@ -18,9 +16,11 @@ public class Order {
         return List.of();
     }
 
-    public List<MovieEntity> orderByTitleAscending(){
-        return List.of();
-    }
+public static List<ResultsEntity> orderByTitleAsc(List<ResultsEntity> movies) {
+    return movies.stream()
+            .sorted(Comparator.comparing(ResultsEntity::getTitle))
+            .toList();
+}
 
     public List<MovieEntity> orderByTitleDescending(){
         return List.of();
