@@ -4,13 +4,9 @@ import java.util.List;
 
 public class Filters {
 
-    public String filterById(){
-        return "doldurulucak";
-    }
+    public List filterById() { return List.of(); }
 
-    public String filterByName(String title){
-        return "doldurulucak";
-    }
+    public List filterByName(String title) { return List.of(); }
 
     public List filterByGenres(List<Integer> genre_ids){
         return List.of();

@@ -6,7 +6,7 @@ public class ResultsEntity {
 
     private boolean adult;
     private String backdrop_path;
-    private List genre_ids;
+    private List<Integer> genre_ids;
     private int id;
     private String original_language;
     private String original_title;
@@ -21,7 +21,7 @@ public class ResultsEntity {
     public ResultsEntity() {
     }
 
-    public ResultsEntity(boolean adult, String backdrop_path, List genre_ids, int id, String original_language,
+    public ResultsEntity(boolean adult, String backdrop_path, List<Integer> genre_ids, int id, String original_language,
                          String original_title, double popularity, String poster_path, String release_date,
                          String title, boolean video, double vote_average, int vote_count) {
         this.adult = adult;
@@ -39,6 +39,7 @@ public class ResultsEntity {
         this.vote_count = vote_count;
     }
 
+    // Getters and Setters
     public boolean isAdult() {
         return adult;
     }
@@ -55,11 +56,11 @@ public class ResultsEntity {
         this.backdrop_path = backdrop_path;
     }
 
-    public List getGenre_ids() {
+    public List<Integer> getGenre_ids() {
         return genre_ids;
     }
 
-    public void setGenre_ids(List genre_ids) {
+    public void setGenre_ids(List<Integer> genre_ids) {
         this.genre_ids = genre_ids;
     }
 
