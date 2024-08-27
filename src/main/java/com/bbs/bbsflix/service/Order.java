@@ -8,13 +8,14 @@ import java.util.List;
 
 public class Order {
 
-    public List<MovieEntity> orderByDurationAscending(){
-        return List.of();
-    }
-
-    public List<MovieEntity> orderByDurationDescending(){
-        return List.of();
-    }
+    // DURATION OLMADIĞI İÇİN ONA GÖRE ORDER OLMUYOR.
+//    public List<MovieEntity> orderByDurationAscending(){
+//        return List.of();
+//    }
+//
+//    public List<MovieEntity> orderByDurationDescending(){
+//        return List.of();
+//    }
 
     public static List<ResultsEntity> orderByTitleAsc(List<ResultsEntity> movies) {
         return movies.stream()
@@ -28,15 +29,11 @@ public class Order {
                 .toList();
     }
 
-    public List<MovieEntity> orderByGenreAscending(){
-        return List.of();
+    public static List<ResultsEntity> orderByPopularity(List<ResultsEntity> movies) {
+        return movies.stream()
+                .sorted(Comparator.comparing(ResultsEntity::getPopularity).reversed())
+                .toList();
     }
-
-    public List<MovieEntity> orderByGenreDescending(){
-        return List.of();
-    }
-
-    public List<MovieEntity> orderByPopularity() { return List.of(); }
 
     public List<MovieEntity> orderByRatingAscending(){
         return List.of();
@@ -54,7 +51,13 @@ public class Order {
         return List.of();
     }
 
+    public List<MovieEntity> orderByGenreAscending(){
+        return List.of();
+    }
 
+    public List<MovieEntity> orderByGenreDescending(){
+        return List.of();
+    }
 
 
 }

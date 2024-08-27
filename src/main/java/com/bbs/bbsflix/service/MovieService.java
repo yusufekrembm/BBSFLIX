@@ -57,4 +57,8 @@ public class MovieService {
     public List<ResultsEntity> orderMoviesByTitleDesc(List<ResultsEntity> movies) {
         return Order.orderByTitleDesc(movies);
     }
+
+    public List<ResultsEntity> orderByMoviePopularity(List<ResultsEntity> movies) {
+        return Order.orderByPopularity(movies);
+    }
 }

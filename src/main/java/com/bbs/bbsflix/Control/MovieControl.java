@@ -19,7 +19,8 @@ import java.util.List;
 
 public class MovieControl {
 
-    @Autowired private MovieService movieService;
+    @Autowired
+    private MovieService movieService;
 
     public MovieControl(MovieService movieService) {
         this.movieService = movieService;
@@ -57,6 +58,16 @@ public class MovieControl {
         }
     }
 
+    @GetMapping("/orderByPopularity")
+    public List<ResultsEntity> orderMoviesByPopularity() {
+        try {
+            MovieEntity movieEntity = movieService.getMovies();
+            return movieService.orderByMoviePopularity(movieEntity.getResults());
+        } catch (IOException e) {
+            return List.of();
+        }
 
+
+    }
 
 }
