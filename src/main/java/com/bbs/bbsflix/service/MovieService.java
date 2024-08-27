@@ -1,67 +1,51 @@
 package com.bbs.bbsflix.service;
 
+import com.bbs.bbsflix.model.MovieEntity;
 import com.bbs.bbsflix.model.ResultsEntity;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class MovieService {
 
     private final RestTemplate restTemplate;
+    private final ObjectMapper objectMapper;
 
     @Value("${tmdb.api.key}")
     private String apiKey;
 
     @Autowired
-    public MovieService(RestTemplate restTemplate) {
+    public MovieService(RestTemplate restTemplate, ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
+        this.objectMapper = objectMapper;
     }
 
-    public List<ResultsEntity> getMovies() {
+    public MovieEntity getMovies() throws IOException {
         String url = "https://api.themoviedb.org/3/movie/popular?api_key=" + apiKey + "&language=en-US&page=1";
         String response = restTemplate.getForObject(url, String.class);
 
-        JSONObject jsonResponse = new JSONObject(response);
-        JSONArray resultsArray = jsonResponse.getJSONArray("results");
+        // JSON yanıtını işleyin
+        Map<String, Object> responseMap = objectMapper.readValue(response, new TypeReference<Map<String, Object>>(){});
 
-        List<ResultsEntity> movieList = new ArrayList<>();
+        // MovieEntity oluşturun
+        MovieEntity movieEntity = new MovieEntity();
+        movieEntity.setPage((Integer) responseMap.get("page"));
+        movieEntity.setTotal_pages((Integer) responseMap.get("total_pages"));
+        movieEntity.setTotal_results((Integer) responseMap.get("total_results"));
 
-        for (int i = 0; i < resultsArray.length(); i++) {
-            JSONObject movieJson = resultsArray.getJSONObject(i);
+        List<Map<String, Object>> resultsList = (List<Map<String, Object>>) responseMap.get("results");
+        List<ResultsEntity> resultsEntityList = objectMapper.convertValue(resultsList, new TypeReference<List<ResultsEntity>>(){});
 
-            ResultsEntity movie = new ResultsEntity();
-            movie.setAdult(movieJson.getBoolean("adult"));
-            movie.setBackdrop_path(movieJson.getString("backdrop_path"));
-            movie.setGenre_ids(convertJsonArrayToList(movieJson.getJSONArray("genre_ids")));
-            movie.setId(movieJson.getInt("id"));
-            movie.setOriginal_language(movieJson.getString("original_language"));
-            movie.setOriginal_title(movieJson.getString("original_title"));
-            movie.setPopularity(movieJson.getDouble("popularity"));
-            movie.setPoster_path(movieJson.getString("poster_path"));
-            movie.setRelease_date(movieJson.getString("release_date"));
-            movie.setTitle(movieJson.getString("title"));
-            movie.setVideo(movieJson.getBoolean("video"));
-            movie.setVote_average(movieJson.getDouble("vote_average"));
-            movie.setVote_count(movieJson.getInt("vote_count"));
+        movieEntity.setResults(resultsEntityList);
 
-            movieList.add(movie);
-        }
-
-        return movieList;
-    }
-
-    private List<Integer> convertJsonArrayToList(JSONArray jsonArray) {
-        List<Integer> list = new ArrayList<>();
-        for (int i = 0; i < jsonArray.length(); i++) {
-            list.add(jsonArray.getInt(i));
-        }
-        return list;
+        return movieEntity;
     }
 }
