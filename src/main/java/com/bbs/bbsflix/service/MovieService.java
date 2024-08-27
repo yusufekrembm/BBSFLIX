@@ -24,8 +24,6 @@ public class MovieService {
         this.restTemplate = restTemplate;
     }
 
-
-
     public List<ResultsEntity> getMovies() {
         String url = "https://api.themoviedb.org/3/movie/popular?api_key=" + apiKey + "&language=en-US&page=1";
         String response = restTemplate.getForObject(url, String.class);

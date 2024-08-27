@@ -10,6 +10,9 @@ public class MovieEntity {
     private int total_pages;
     private int total_results;
 
+    public MovieEntity() {
+    }
+
     public MovieEntity(int page, List<ResultsEntity> results, int total_pages, int total_results) {
         this.page = page;
         this.results = results;

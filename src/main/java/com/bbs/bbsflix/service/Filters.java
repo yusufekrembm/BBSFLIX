@@ -1,4 +1,4 @@
-package com.bbs.bbsflix.Control;
+package com.bbs.bbsflix.service;
 
 import java.util.List;
 
