@@ -1,8 +1,11 @@
 package com.bbs.bbsflix.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+@Service
 public class MovieService {
 
     private final RestTemplate restTemplate;
@@ -10,6 +13,7 @@ public class MovieService {
     @Value("${tmdb.api.key}")
     private String apiKey;
 
+    @Autowired
     public MovieService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
