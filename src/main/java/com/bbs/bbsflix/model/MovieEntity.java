@@ -1,12 +1,17 @@
-package com.bbs.bbsflix.Entity;
+package com.bbs.bbsflix.model;
 
 import java.util.List;
 
+
 public class MovieEntity {
+
     private int page;
     private List<ResultsEntity> results;
     private int total_pages;
     private int total_results;
+
+    public MovieEntity() {
+    }
 
     public MovieEntity(int page, List<ResultsEntity> results, int total_pages, int total_results) {
         this.page = page;

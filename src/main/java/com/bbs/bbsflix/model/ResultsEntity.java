@@ -1,14 +1,16 @@
-package com.bbs.bbsflix.Entity;
+package com.bbs.bbsflix.model;
 
 import java.util.List;
 
 public class ResultsEntity {
+
     private boolean adult;
     private String backdrop_path;
-    private List genre_ids;
+    private List<Integer> genre_ids;
     private int id;
     private String original_language;
     private String original_title;
+    private String overview;
     private double popularity;
     private String poster_path;
     private String release_date;
@@ -20,8 +22,9 @@ public class ResultsEntity {
     public ResultsEntity() {
     }
 
-    public ResultsEntity(boolean adult, String backdrop_path, List genre_ids, int id, String original_language,
-                         String original_title, double popularity, String poster_path, String release_date,
+    public ResultsEntity(boolean adult, String backdrop_path, List<Integer> genre_ids, int id,
+                         String original_language, String original_title, String overview,
+                         double popularity, String poster_path, String release_date,
                          String title, boolean video, double vote_average, int vote_count) {
         this.adult = adult;
         this.backdrop_path = backdrop_path;
@@ -29,6 +32,7 @@ public class ResultsEntity {
         this.id = id;
         this.original_language = original_language;
         this.original_title = original_title;
+        this.overview = overview;
         this.popularity = popularity;
         this.poster_path = poster_path;
         this.release_date = release_date;
@@ -54,11 +58,11 @@ public class ResultsEntity {
         this.backdrop_path = backdrop_path;
     }
 
-    public List getGenre_ids() {
+    public List<Integer> getGenre_ids() {
         return genre_ids;
     }
 
-    public void setGenre_ids(List genre_ids) {
+    public void setGenre_ids(List<Integer> genre_ids) {
         this.genre_ids = genre_ids;
     }
 
@@ -84,6 +88,14 @@ public class ResultsEntity {
 
     public void setOriginal_title(String original_title) {
         this.original_title = original_title;
+    }
+
+    public String getOverview() {
+        return overview;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
     }
 
     public double getPopularity() {
@@ -142,4 +154,3 @@ public class ResultsEntity {
         this.vote_count = vote_count;
     }
 }
-
