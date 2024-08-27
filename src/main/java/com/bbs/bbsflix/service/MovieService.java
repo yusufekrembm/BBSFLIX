@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,44 +25,28 @@ public class MovieService {
         this.restTemplate = restTemplate;
     }
 
-    public List<ResultsEntity> getMovies() {
-        String url = "https://api.themoviedb.org/3/movie/popular?api_key=" + apiKey + "&language=en-US&page=1";
+    public MovieEntity getMovies() throws IOException {
+        String url = "https://api.themoviedb.org/3/movie/popular?api_key=" + apiKey + "&language=en-US&page=2";
         String response = restTemplate.getForObject(url, String.class);
 
-        JSONObject jsonResponse = new JSONObject(response);
-        JSONArray resultsArray = jsonResponse.getJSONArray("results");
+        Map<String, Object> responseMap = objectMapper.readValue(response, new TypeReference<Map<String, Object>>(){});
+        List<Map<String, Object>> resultsList = (List<Map<String, Object>>) responseMap.get("results");
 
         List<ResultsEntity> movieList = new ArrayList<>();
-
-        for (int i = 0; i < resultsArray.length(); i++) {
-            JSONObject movieJson = resultsArray.getJSONObject(i);
-
-            ResultsEntity movie = new ResultsEntity();
-            movie.setAdult(movieJson.getBoolean("adult"));
-            movie.setBackdrop_path(movieJson.getString("backdrop_path"));
-            movie.setGenre_ids(convertJsonArrayToList(movieJson.getJSONArray("genre_ids")));
-            movie.setId(movieJson.getInt("id"));
-            movie.setOriginal_language(movieJson.getString("original_language"));
-            movie.setOriginal_title(movieJson.getString("original_title"));
-            movie.setPopularity(movieJson.getDouble("popularity"));
-            movie.setPoster_path(movieJson.getString("poster_path"));
-            movie.setRelease_date(movieJson.getString("release_date"));
-            movie.setTitle(movieJson.getString("title"));
-            movie.setVideo(movieJson.getBoolean("video"));
-            movie.setVote_average(movieJson.getDouble("vote_average"));
-            movie.setVote_count(movieJson.getInt("vote_count"));
-
+        for (Map<String, Object> movieMap : resultsList) {
+            ResultsEntity movie = objectMapper.convertValue(movieMap, ResultsEntity.class);
             movieList.add(movie);
         }
 
-        return movieList;
+        int page = (Integer) responseMap.get("page");
+        int totalPages = (Integer) responseMap.get("total_pages");
+        int totalResults = (Integer) responseMap.get("total_results");
+
+        return new MovieEntity(page, movieList, totalPages, totalResults);
     }
 
-    private List<Integer> convertJsonArrayToList(JSONArray jsonArray) {
-        List<Integer> list = new ArrayList<>();
-        for (int i = 0; i < jsonArray.length(); i++) {
-            list.add(jsonArray.getInt(i));
-        }
-        return list;
+    public List<ResultsEntity> orderMoviesByTitleAsc(List<ResultsEntity> movies) {
+        return Order.orderByTitleAsc(movies);
+
     }
 }
