@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,14 +25,8 @@ public class MovieControl {
     }
 
     @GetMapping("/allMovies")
-    public MovieEntity getAllMovies() {
-        try {
-            return movieService.getMovies();
-        } catch (IOException e) {
-            e.printStackTrace();
-
-            return new MovieEntity();
-        }
+    public List<ResultsEntity> getMovies() {
+        return movieService.getMovies();
     }
 
     @GetMapping("/orderByTitleAsc")
@@ -46,7 +39,6 @@ public class MovieControl {
             return List.of(); // Hata durumunda boş liste döndür
         }
     }
-
 
 
 
