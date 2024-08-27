@@ -10,7 +10,7 @@ public class ResultsEntity {
     private int id;
     private String original_language;
     private String original_title;
-    private String overview;  // Bu alan JSON'da var, ekleyin
+    private String overview;
     private double popularity;
     private String poster_path;
     private String release_date;
