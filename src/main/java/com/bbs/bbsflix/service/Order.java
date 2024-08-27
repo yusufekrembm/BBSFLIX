@@ -16,14 +16,16 @@ public class Order {
         return List.of();
     }
 
-public static List<ResultsEntity> orderByTitleAsc(List<ResultsEntity> movies) {
-    return movies.stream()
-            .sorted(Comparator.comparing(ResultsEntity::getTitle))
-            .toList();
-}
+    public static List<ResultsEntity> orderByTitleAsc(List<ResultsEntity> movies) {
+        return movies.stream()
+                .sorted(Comparator.comparing(ResultsEntity::getTitle))
+                .toList();
+    }
 
-    public List<MovieEntity> orderByTitleDescending(){
-        return List.of();
+    public static List<ResultsEntity> orderByTitleDesc(List<ResultsEntity> movies) {
+        return movies.stream()
+                .sorted(Comparator.comparing(ResultsEntity::getTitle).reversed())
+                .toList();
     }
 
     public List<MovieEntity> orderByGenreAscending(){

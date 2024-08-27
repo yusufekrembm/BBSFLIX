@@ -47,6 +47,15 @@ public class MovieControl {
         }
     }
 
+    @GetMapping("/orderByTitleDesc")
+    public List<ResultsEntity> orderMoviesByTitleDesc() {
+        try {
+            MovieEntity movieEntity = movieService.getMovies();
+            return movieService.orderMoviesByTitleDesc(movieEntity.getResults());
+        } catch (IOException e) {
+            return List.of();
+        }
+    }
 
 
 
