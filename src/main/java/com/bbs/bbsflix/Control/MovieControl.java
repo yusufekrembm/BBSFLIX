@@ -32,7 +32,6 @@ public class MovieControl {
             return movieService.getMovies();
         } catch (IOException e) {
             e.printStackTrace();
-
             return new MovieEntity();
         }
     }
