@@ -1,0 +1,51 @@
+.main-container {
+    display: flex;
+  }
+  
+  .sidebar {
+    width: 200px;
+    padding: 10px;
+    border-right: 1px solid #ccc;
+  }
+  
+  .filter-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    background-color: #f5f5f5;
+    cursor: pointer;
+  }
+  
+  .filter-options {
+    margin-top: 10px;
+  }
+  
+  .filter-option {
+    padding: 8px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+  }
+  
+  .filter-option:hover {
+    background-color: #eee;
+  }
+  
+  .content {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  .search-bar {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+  }
+  
+  .selected-filters {
+    margin-top: 10px;
+    font-size: 16px;
+  }
+  
