@@ -65,6 +65,7 @@ public class MovieService {
     public List<ResultsEntity> orderByMoviePopularity(List<ResultsEntity> movies) {
         return Order.orderByPopularity(movies);
     }
+
     public ResultsEntity getMovieByTitle(String title) throws IOException {
         MovieEntity movieEntity = getMovies();
         return movieEntity.getResults().stream()
@@ -90,7 +91,21 @@ public class MovieService {
 }
 
 
-/*
-{2,3,4},{1,5,6}
+    public List<ResultsEntity> orderByMovieRatingAsc(List<ResultsEntity> movies) {
+        return Order.orderByRatingAscending(movies);
+    }
 
- */
+    public List<ResultsEntity> orderByMovieRatingDesc(List<ResultsEntity> movies) {
+        return Order.orderByRatingDescending(movies);
+    }
+
+    public List<ResultsEntity> orderByReleaseDateAsc(List<ResultsEntity> movies) {
+        return Order.orderByReleaseDateAscending(movies);
+    }
+
+    public List<ResultsEntity> orderByReleaseDateDesc(List<ResultsEntity> movies) {
+        return Order.orderByReleaseDateDescending(movies);
+    }
+
+}
+
