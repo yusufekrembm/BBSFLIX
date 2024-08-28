@@ -8,14 +8,6 @@ import java.util.List;
 
 public class Order {
 
-    // DURATION OLMADIĞI İÇİN ONA GÖRE ORDER OLMUYOR.
-//    public List<MovieEntity> orderByDurationAscending(){
-//        return List.of();
-//    }
-//
-//    public List<MovieEntity> orderByDurationDescending(){
-//        return List.of();
-//    }
 
     public static List<ResultsEntity> orderByTitleAsc(List<ResultsEntity> movies) {
         return movies.stream()
@@ -58,14 +50,5 @@ public class Order {
                 .sorted(Comparator.comparing(ResultsEntity::getRelease_date).reversed())
                 .toList();
     }
-
-    public List<MovieEntity> orderByGenreAscending(){
-        return List.of();
-    }
-
-    public List<MovieEntity> orderByGenreDescending(){
-        return List.of();
-    }
-
 
 }
