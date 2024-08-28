@@ -77,6 +77,11 @@ public class MovieService {
                 .filter(movie -> movie.getOriginal_language().equalsIgnoreCase(language))
                 .collect(Collectors.toList());
     }
+    public List<ResultsEntity> filterMoviesByReleaseDate(List<ResultsEntity> movies, String releaseDate) {
+        return movies.stream()
+                .filter(movie -> movie.getRelease_date().equals(releaseDate))
+                .collect(Collectors.toList());
+    }
 }
 
 

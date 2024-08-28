@@ -94,4 +94,18 @@ public class MovieControl {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+    @GetMapping("/filterByReleaseDate")
+    public ResponseEntity<List<ResultsEntity>> filterMoviesByReleaseDate(@RequestParam String releaseDate) {
+        try {
+            MovieEntity movieEntity = movieService.getMovies();
+            List<ResultsEntity> filteredMovies = movieService.filterMoviesByReleaseDate(movieEntity.getResults(), releaseDate);
+            if (!filteredMovies.isEmpty()) {
+                return ResponseEntity.ok(filteredMovies);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }
