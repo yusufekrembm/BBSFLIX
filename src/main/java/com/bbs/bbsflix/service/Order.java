@@ -47,12 +47,16 @@ public class Order {
                 .toList();
     }
 
-    public List<MovieEntity> orderByReleaseDateAscending(){
-        return List.of();
+    public static List<ResultsEntity> orderByReleaseDateAscending(List<ResultsEntity> movies){
+        return movies.stream()
+                .sorted(Comparator.comparing(ResultsEntity::getRelease_date))
+                .toList();
     }
 
-    public List<MovieEntity> orderByReleaseDateDescending(){
-        return List.of();
+    public static List<ResultsEntity> orderByReleaseDateDescending(List<ResultsEntity> movies){
+        return movies.stream()
+                .sorted(Comparator.comparing(ResultsEntity::getRelease_date).reversed())
+                .toList();
     }
 
     public List<MovieEntity> orderByGenreAscending(){

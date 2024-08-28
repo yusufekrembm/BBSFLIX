@@ -3,6 +3,7 @@ package com.bbs.bbsflix.Control;
 import com.bbs.bbsflix.model.MovieEntity;
 import com.bbs.bbsflix.model.ResultsEntity;
 import com.bbs.bbsflix.service.MovieService;
+import org.apache.logging.log4j.message.ReusableMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -82,6 +83,26 @@ public class MovieControl {
         try {
             MovieEntity movieEntity = movieService.getMovies();
             return movieService.orderByMovieRatingDesc(movieEntity.getResults());
+        } catch (IOException e){
+            return List.of();
+        }
+    }
+
+    @GetMapping("/orderByReleaseDateAsc")
+    public List<ResultsEntity> orderMoviesByReleaseDateAsc() {
+        try {
+            MovieEntity movieEntity = movieService.getMovies();
+            return movieService.orderByReleaseDateAsc(movieEntity.getResults());
+        } catch (IOException e){
+            return List.of();
+        }
+    }
+
+    @GetMapping("/orderByReleaseDateDesc")
+    public List<ResultsEntity> orderMoviesByReleaseDateDesc() {
+        try {
+            MovieEntity movieEntity = movieService.getMovies();
+            return movieService.orderByReleaseDateDesc(movieEntity.getResults());
         } catch (IOException e){
             return List.of();
         }

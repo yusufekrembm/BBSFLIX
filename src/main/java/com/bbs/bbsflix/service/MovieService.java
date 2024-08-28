@@ -69,5 +69,13 @@ public class MovieService {
     public List<ResultsEntity> orderByMovieRatingDesc(List<ResultsEntity> movies) {
         return Order.orderByRatingDescending(movies);
     }
+
+    public List<ResultsEntity> orderByReleaseDateAsc(List<ResultsEntity> movies) {
+        return Order.orderByReleaseDateAscending(movies);
+    }
+
+    public List<ResultsEntity> orderByReleaseDateDesc(List<ResultsEntity> movies) {
+        return Order.orderByReleaseDateDescending(movies);
+    }
 }
 
