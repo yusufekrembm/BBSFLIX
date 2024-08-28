@@ -108,4 +108,19 @@ public class MovieControl {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+    @GetMapping("/filterByFirstGenreId")
+    public ResponseEntity<List<ResultsEntity>> filterMoviesByFirstGenreId(@RequestParam int genreId) {
+        try {
+            MovieEntity movieEntity = movieService.getMovies();
+            List<ResultsEntity> filteredMovies = movieService.filterMoviesByFirstGenreId(movieEntity.getResults(), genreId);
+            if (!filteredMovies.isEmpty()) {
+                return ResponseEntity.ok(filteredMovies);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }
+

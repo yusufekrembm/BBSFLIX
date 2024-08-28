@@ -82,6 +82,11 @@ public class MovieService {
                 .filter(movie -> movie.getRelease_date().equals(releaseDate))
                 .collect(Collectors.toList());
     }
+    public List<ResultsEntity> filterMoviesByFirstGenreId(List<ResultsEntity> movies, int genreId) {
+        return movies.stream()
+                .filter(movie -> !movie.getGenre_ids().isEmpty() && movie.getGenre_ids().get(0) == genreId)
+                .collect(Collectors.toList());
+    }
 }
 
 
