@@ -26,8 +26,15 @@ public class MovieControl {
     }
 
     @GetMapping("/allMovies")
-    public List<ResultsEntity> getMovies() {
-        return movieService.getMovies();
+
+    public MovieEntity getAllMovies() {
+        try {
+            return movieService.getMovies();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new MovieEntity();
+        }
+
     }
 
     @GetMapping("/orderByTitleAsc")
