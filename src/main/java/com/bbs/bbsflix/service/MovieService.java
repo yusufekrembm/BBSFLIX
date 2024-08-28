@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class MovieService {
@@ -70,6 +71,11 @@ public class MovieService {
                 .filter(movie -> movie.getTitle().equalsIgnoreCase(title))
                 .findFirst()
                 .orElse(null);
+    }
+    public List<ResultsEntity> filterMoviesByOriginalLanguage(List<ResultsEntity> movies, String language) {
+        return movies.stream()
+                .filter(movie -> movie.getOriginal_language().equalsIgnoreCase(language))
+                .collect(Collectors.toList());
     }
 }
 

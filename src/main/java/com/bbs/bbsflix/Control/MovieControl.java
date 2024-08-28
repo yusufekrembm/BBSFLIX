@@ -80,4 +80,18 @@ public class MovieControl {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+    @GetMapping("/filterByOriginalLanguage")
+    public ResponseEntity<List<ResultsEntity>> filterMoviesByOriginalLanguage(@RequestParam String language) {
+        try {
+            MovieEntity movieEntity = movieService.getMovies();
+            List<ResultsEntity> filteredMovies = movieService.filterMoviesByOriginalLanguage(movieEntity.getResults(), language);
+            if (!filteredMovies.isEmpty()) {
+                return ResponseEntity.ok(filteredMovies);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }
