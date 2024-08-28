@@ -32,7 +32,8 @@ public class MovieService {
     }
 
     public MovieEntity getMovies() throws IOException {
-        String url = "https://api.themoviedb.org/3/movie/popular?api_key=" + apiKey + "&language=en-US&page=2";
+
+        String url = "https://api.themoviedb.org/3/movie/popular?api_key=" + apiKey + "&language=en-US&page=11";
         String response = restTemplate.getForObject(url, String.class);
 
         Map<String, Object> responseMap = jacksonObjectMapper.readValue(response, new TypeReference<Map<String, Object>>(){});
@@ -55,4 +56,18 @@ public class MovieService {
         return Order.orderByTitleAsc(movies);
 
     }
+
+    public List<ResultsEntity> orderMoviesByTitleDesc(List<ResultsEntity> movies) {
+        return Order.orderByTitleDesc(movies);
+    }
+
+    public List<ResultsEntity> orderByMoviePopularity(List<ResultsEntity> movies) {
+        return Order.orderByPopularity(movies);
+    }
 }
+
+
+/*
+{2,3,4},{1,5,6}
+
+ */

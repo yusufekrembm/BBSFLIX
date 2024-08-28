@@ -6,9 +6,11 @@ import com.bbs.bbsflix.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -17,15 +19,23 @@ import java.util.List;
 
 public class MovieControl {
 
-    @Autowired private MovieService movieService;
+    @Autowired
+    private MovieService movieService;
 
     public MovieControl(MovieService movieService) {
         this.movieService = movieService;
     }
 
     @GetMapping("/allMovies")
-    public MovieEntity getMovies() throws IOException {
-        return movieService.getMovies();
+
+    public MovieEntity getAllMovies() {
+        try {
+            return movieService.getMovies();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new MovieEntity();
+        }
+
     }
 
     @GetMapping("/orderByTitleAsc")
@@ -39,6 +49,26 @@ public class MovieControl {
         }
     }
 
+    @GetMapping("/orderByTitleDesc")
+    public List<ResultsEntity> orderMoviesByTitleDesc() {
+        try {
+            MovieEntity movieEntity = movieService.getMovies();
+            return movieService.orderMoviesByTitleDesc(movieEntity.getResults());
+        } catch (IOException e) {
+            return List.of();
+        }
+    }
+
+    @GetMapping("/orderByPopularity")
+    public List<ResultsEntity> orderMoviesByPopularity() {
+        try {
+            MovieEntity movieEntity = movieService.getMovies();
+            return movieService.orderByMoviePopularity(movieEntity.getResults());
+        } catch (IOException e) {
+            return List.of();
+        }
 
 
+
+    }
 }
