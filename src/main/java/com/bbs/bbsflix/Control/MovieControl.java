@@ -65,8 +65,26 @@ public class MovieControl {
         } catch (IOException e) {
             return List.of();
         }
+    }
 
+    @GetMapping("/orderByRatingAsc")
+    public List<ResultsEntity> orderMoviesByRatingAsc() {
+        try {
+            MovieEntity movieEntity = movieService.getMovies();
+            return movieService.orderByMovieRatingAsc(movieEntity.getResults());
+        } catch (IOException e) {
+            return List.of();
+        }
+    }
 
+    @GetMapping("/orderByRatingDesc")
+    public List<ResultsEntity> orderMoviesByRatingDesc() {
+        try {
+            MovieEntity movieEntity = movieService.getMovies();
+            return movieService.orderByMovieRatingDesc(movieEntity.getResults());
+        } catch (IOException e){
+            return List.of();
+        }
     }
 
 }

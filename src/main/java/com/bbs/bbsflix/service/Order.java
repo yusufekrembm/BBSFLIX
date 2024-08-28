@@ -35,12 +35,16 @@ public class Order {
                 .toList();
     }
 
-    public List<MovieEntity> orderByRatingAscending(){
-        return List.of();
+    public static List<ResultsEntity> orderByRatingAscending(List<ResultsEntity> movies){
+        return movies.stream()
+                .sorted(Comparator.comparing(ResultsEntity::getVote_average).reversed())
+                .toList();
     }
 
-    public List<MovieEntity> orderByRatingDescending(){
-        return List.of();
+    public static List<ResultsEntity> orderByRatingDescending(List<ResultsEntity> movies){
+        return movies.stream()
+                .sorted(Comparator.comparing(ResultsEntity::getVote_average))
+                .toList();
     }
 
     public List<MovieEntity> orderByReleaseDateAscending(){
