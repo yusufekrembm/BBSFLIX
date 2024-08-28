@@ -64,6 +64,13 @@ public class MovieService {
     public List<ResultsEntity> orderByMoviePopularity(List<ResultsEntity> movies) {
         return Order.orderByPopularity(movies);
     }
+    public ResultsEntity getMovieByTitle(String title) throws IOException {
+        MovieEntity movieEntity = getMovies();
+        return movieEntity.getResults().stream()
+                .filter(movie -> movie.getTitle().equalsIgnoreCase(title))
+                .findFirst()
+                .orElse(null);
+    }
 }
 
 

@@ -4,10 +4,9 @@ import com.bbs.bbsflix.model.MovieEntity;
 import com.bbs.bbsflix.model.ResultsEntity;
 import com.bbs.bbsflix.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -67,8 +66,18 @@ public class MovieControl {
         } catch (IOException e) {
             return List.of();
         }
-
-
-
+    }
+    @GetMapping("/titleFilter")
+    public ResponseEntity<ResultsEntity> getMovieByTitle(@RequestParam String title) {
+        try {
+            ResultsEntity movie = movieService.getMovieByTitle(title);
+            if (movie != null) {
+                return ResponseEntity.ok(movie);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }
