@@ -8,14 +8,6 @@ import java.util.List;
 
 public class Order {
 
-    // DURATION OLMADIĞI İÇİN ONA GÖRE ORDER OLMUYOR.
-//    public List<MovieEntity> orderByDurationAscending(){
-//        return List.of();
-//    }
-//
-//    public List<MovieEntity> orderByDurationDescending(){
-//        return List.of();
-//    }
 
     public static List<ResultsEntity> orderByTitleAsc(List<ResultsEntity> movies) {
         return movies.stream()
@@ -35,28 +27,28 @@ public class Order {
                 .toList();
     }
 
-    public List<MovieEntity> orderByRatingAscending(){
-        return List.of();
+    public static List<ResultsEntity> orderByRatingAscending(List<ResultsEntity> movies){
+        return movies.stream()
+                .sorted(Comparator.comparing(ResultsEntity::getVote_average).reversed())
+                .toList();
     }
 
-    public List<MovieEntity> orderByRatingDescending(){
-        return List.of();
+    public static List<ResultsEntity> orderByRatingDescending(List<ResultsEntity> movies){
+        return movies.stream()
+                .sorted(Comparator.comparing(ResultsEntity::getVote_average))
+                .toList();
     }
 
-    public List<MovieEntity> orderByReleaseDateAscending(){
-        return List.of();
+    public static List<ResultsEntity> orderByReleaseDateAscending(List<ResultsEntity> movies){
+        return movies.stream()
+                .sorted(Comparator.comparing(ResultsEntity::getRelease_date))
+                .toList();
     }
 
-    public List<MovieEntity> orderByReleaseDateDescending(){
-        return List.of();
-    }
-
-    public List<MovieEntity> orderByGenreAscending(){
-        return List.of();
-    }
-
-    public List<MovieEntity> orderByGenreDescending(){
-        return List.of();
+    public static List<ResultsEntity> orderByReleaseDateDescending(List<ResultsEntity> movies){
+        return movies.stream()
+                .sorted(Comparator.comparing(ResultsEntity::getRelease_date).reversed())
+                .toList();
     }
 
 

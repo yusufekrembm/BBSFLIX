@@ -4,10 +4,20 @@ import com.bbs.bbsflix.model.MovieEntity;
 import com.bbs.bbsflix.model.ResultsEntity;
 import com.bbs.bbsflix.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+ 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,6 +31,7 @@ public class MovieControl {
 
     @Autowired
     private MovieService movieService;
+
 
     public MovieControl(MovieService movieService) {
         this.movieService = movieService;
@@ -67,8 +78,165 @@ public class MovieControl {
         } catch (IOException e) {
             return List.of();
         }
-
-
-
     }
+
+    @GetMapping("/titleFilter")
+    public ResponseEntity<ResultsEntity> getMovieByTitle(@RequestParam String title) {
+        try {
+            ResultsEntity movie = movieService.getMovieByTitle(title);
+            if (movie != null) {
+                return ResponseEntity.ok(movie);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+    @GetMapping("/filterByOriginalLanguage")
+    public ResponseEntity<List<ResultsEntity>> filterMoviesByOriginalLanguage(@RequestParam String language) {
+        try {
+            MovieEntity movieEntity = movieService.getMovies();
+            List<ResultsEntity> filteredMovies = movieService.filterMoviesByOriginalLanguage(movieEntity.getResults(), language);
+            if (!filteredMovies.isEmpty()) {
+                return ResponseEntity.ok(filteredMovies);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+    @GetMapping("/filterByReleaseDate")
+    public ResponseEntity<List<ResultsEntity>> filterMoviesByReleaseDate(@RequestParam String releaseDate) {
+        try {
+            MovieEntity movieEntity = movieService.getMovies();
+            List<ResultsEntity> filteredMovies = movieService.filterMoviesByReleaseDate(movieEntity.getResults(), releaseDate);
+            if (!filteredMovies.isEmpty()) {
+                return ResponseEntity.ok(filteredMovies);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+    @GetMapping("/filterByFirstGenreId")
+    public ResponseEntity<List<ResultsEntity>> filterMoviesByFirstGenreId(@RequestParam int genreId) {
+        try {
+            MovieEntity movieEntity = movieService.getMovies();
+            List<ResultsEntity> filteredMovies = movieService.filterMoviesByFirstGenreId(movieEntity.getResults(), genreId);
+            if (!filteredMovies.isEmpty()) {
+                return ResponseEntity.ok(filteredMovies);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+
+
+    @GetMapping("/orderByRatingAsc")
+    public List<ResultsEntity> orderMoviesByRatingAsc() {
+        try {
+            MovieEntity movieEntity = movieService.getMovies();
+            return movieService.orderByMovieRatingAsc(movieEntity.getResults());
+        } catch (IOException e) {
+            return List.of();
+        }
+    }
+
+    @GetMapping("/orderByRatingDesc")
+    public List<ResultsEntity> orderMoviesByRatingDesc() {
+        try {
+            MovieEntity movieEntity = movieService.getMovies();
+            return movieService.orderByMovieRatingDesc(movieEntity.getResults());
+        } catch (IOException e) {
+            return List.of();
+        }
+    }
+
+    @GetMapping("/orderByReleaseDateAsc")
+    public List<ResultsEntity> orderMoviesByReleaseDateAsc() {
+        try {
+            MovieEntity movieEntity = movieService.getMovies();
+            return movieService.orderByReleaseDateAsc(movieEntity.getResults());
+        } catch (IOException e) {
+            return List.of();
+        }
+    }
+
+
+    @GetMapping("/orderByReleaseDateDesc")
+    public List<ResultsEntity> orderMoviesByReleaseDateDesc() {
+        try {
+            MovieEntity movieEntity = movieService.getMovies();
+            return movieService.orderByReleaseDateDesc(movieEntity.getResults());
+        } catch (IOException e) {
+            return List.of();
+
+        }
+    }
+
+    @GetMapping("/titleFilter")
+    public ResponseEntity<ResultsEntity> filterMoviesByTitle(@RequestParam String title) {
+        try {
+            ResultsEntity movie = movieService.getMovieByTitle(title);
+            if (movie != null) {
+                return ResponseEntity.ok(movie);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @GetMapping("/filterByOriginalLanguage")
+    public ResponseEntity<List<ResultsEntity>> filterMoviesByOriginalLanguage(@RequestParam String language) {
+        try {
+            MovieEntity movieEntity = movieService.getMovies();
+            List<ResultsEntity> filteredMovies = movieService.filterMoviesByOriginalLanguage(movieEntity.getResults(), language);
+            if (!filteredMovies.isEmpty()) {
+                return ResponseEntity.ok(filteredMovies);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @GetMapping("/filterByReleaseDate")
+    public ResponseEntity<List<ResultsEntity>> filterMoviesByReleaseDate(@RequestParam String releaseDate) {
+        try {
+            MovieEntity movieEntity = movieService.getMovies();
+            List<ResultsEntity> filteredMovies = movieService.filterMoviesByReleaseDate(movieEntity.getResults(), releaseDate);
+            if (!filteredMovies.isEmpty()) {
+                return ResponseEntity.ok(filteredMovies);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @GetMapping("/filterByFirstGenreId")
+    public ResponseEntity<List<ResultsEntity>> filterMoviesByFirstGenreId(@RequestParam int genreId) {
+        try {
+            MovieEntity movieEntity = movieService.getMovies();
+            List<ResultsEntity> filteredMovies = movieService.filterMoviesByFirstGenreId(movieEntity.getResults(), genreId);
+            if (!filteredMovies.isEmpty()) {
+                return ResponseEntity.ok(filteredMovies);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+
+        }
+    }
+
 }
+
+
