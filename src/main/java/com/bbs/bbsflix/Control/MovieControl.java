@@ -18,15 +18,23 @@ import java.util.List;
 
 public class MovieControl {
 
-    @Autowired private MovieService movieService;
+    @Autowired
+    private MovieService movieService;
 
     public MovieControl(MovieService movieService) {
         this.movieService = movieService;
     }
 
     @GetMapping("/allMovies")
-    public List<ResultsEntity> getMovies() {
-        return movieService.getMovies();
+
+    public MovieEntity getAllMovies() {
+        try {
+            return movieService.getMovies();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new MovieEntity();
+        }
+
     }
 
     @GetMapping("/orderByTitleAsc")
@@ -40,6 +48,26 @@ public class MovieControl {
         }
     }
 
+    @GetMapping("/orderByTitleDesc")
+    public List<ResultsEntity> orderMoviesByTitleDesc() {
+        try {
+            MovieEntity movieEntity = movieService.getMovies();
+            return movieService.orderMoviesByTitleDesc(movieEntity.getResults());
+        } catch (IOException e) {
+            return List.of();
+        }
+    }
+
+    @GetMapping("/orderByPopularity")
+    public List<ResultsEntity> orderMoviesByPopularity() {
+        try {
+            MovieEntity movieEntity = movieService.getMovies();
+            return movieService.orderByMoviePopularity(movieEntity.getResults());
+        } catch (IOException e) {
+            return List.of();
+        }
 
 
+
+    }
 }
