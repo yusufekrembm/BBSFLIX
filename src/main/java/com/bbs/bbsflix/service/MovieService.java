@@ -1,9 +1,8 @@
 package com.bbs.bbsflix.service;
 
-import com.bbs.bbsflix.model.MovieEntity;
 import com.bbs.bbsflix.model.ResultsEntity;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -12,21 +11,18 @@ import org.springframework.web.client.RestTemplate;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class MovieService {
 
     private final RestTemplate restTemplate;
-    private final ObjectMapper objectMapper;
 
     @Value("${tmdb.api.key}")
     private String apiKey;
 
     @Autowired
-    public MovieService(RestTemplate restTemplate, ObjectMapper objectMapper) {
+    public MovieService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
-        this.objectMapper = objectMapper;
     }
 
     public MovieEntity getMovies() throws IOException {
@@ -52,6 +48,7 @@ public class MovieService {
 
     public List<ResultsEntity> orderMoviesByTitleAsc(List<ResultsEntity> movies) {
         return Order.orderByTitleAsc(movies);
+
     }
 
     public List<ResultsEntity> orderMoviesByTitleDesc(List<ResultsEntity> movies) {
