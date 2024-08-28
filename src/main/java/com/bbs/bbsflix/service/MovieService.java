@@ -52,6 +52,14 @@ public class MovieService {
         return new MovieEntity(page, movieList, totalPages, totalResults);
     }
 
+    public ResultsEntity getMovieByTitle(String title) throws IOException {
+        MovieEntity movieEntity = getMovies();
+        return movieEntity.getResults().stream()
+                .filter(movie -> movie.getTitle().equalsIgnoreCase(title))
+                .findFirst()
+                .orElse(null);
+    }
+
     public List<ResultsEntity> orderMoviesByTitleAsc(List<ResultsEntity> movies) {
         return Order.orderByTitleAsc(movies);
 
@@ -81,5 +89,16 @@ public class MovieService {
         return Order.orderByReleaseDateDescending(movies);
     }
 
+    public List<ResultsEntity> filterMoviesByOriginalLanguage(List<ResultsEntity> movies, String language){
+        return Filters.filterMoviesByOriginalLanguage(movies, language);
+    }
+
+    public List<ResultsEntity> filterMoviesByReleaseDate(List<ResultsEntity> movies, String releaseDate){
+        return Filters.filterMoviesByReleaseDate(movies, releaseDate);
+    }
+
+    public List<ResultsEntity> filterMoviesByFirstGenreId(List<ResultsEntity> movies, int firstGenre){
+        return Filters.filterMoviesByFirstGenreId(movies, firstGenre);
+    }
 }
 
