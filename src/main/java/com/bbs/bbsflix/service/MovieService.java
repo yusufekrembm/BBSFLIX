@@ -15,21 +15,25 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 import java.util.stream.Collectors;
+
 
 @Service
 public class MovieService {
 
     private final RestTemplate restTemplate;
-    private final ObjectMapper jacksonObjectMapper;
+    private final ObjectMapper objectMapper;
+
 
     @Value("${tmdb.api.key}")
     private String apiKey;
 
     @Autowired
-    public MovieService(RestTemplate restTemplate, ObjectMapper jacksonObjectMapper) {
+    public MovieService(RestTemplate restTemplate, ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
-        this.jacksonObjectMapper = jacksonObjectMapper;
+        this.objectMapper = objectMapper;
+
     }
 
     public MovieEntity getMovies() throws IOException {
@@ -51,6 +55,14 @@ public class MovieService {
         int totalResults = (Integer) responseMap.get("total_results");
 
         return new MovieEntity(page, movieList, totalPages, totalResults);
+    }
+
+    public ResultsEntity getMovieByTitle(String title) throws IOException {
+        MovieEntity movieEntity = getMovies();
+        return movieEntity.getResults().stream()
+                .filter(movie -> movie.getTitle().equalsIgnoreCase(title))
+                .findFirst()
+                .orElse(null);
     }
 
     public List<ResultsEntity> orderMoviesByTitleAsc(List<ResultsEntity> movies) {
@@ -107,5 +119,16 @@ public class MovieService {
         return Order.orderByReleaseDateDescending(movies);
     }
 
+    public List<ResultsEntity> filterMoviesByOriginalLanguage(List<ResultsEntity> movies, String language){
+        return Filters.filterMoviesByOriginalLanguage(movies, language);
+    }
+
+    public List<ResultsEntity> filterMoviesByReleaseDate(List<ResultsEntity> movies, String releaseDate){
+        return Filters.filterMoviesByReleaseDate(movies, releaseDate);
+    }
+
+    public List<ResultsEntity> filterMoviesByFirstGenreId(List<ResultsEntity> movies, int firstGenre){
+        return Filters.filterMoviesByFirstGenreId(movies, firstGenre);
+    }
 }
 
