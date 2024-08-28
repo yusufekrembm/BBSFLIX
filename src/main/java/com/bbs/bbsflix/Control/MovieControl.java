@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -26,6 +27,7 @@ public class MovieControl {
     }
 
     @GetMapping("/allMovies")
+
     public MovieEntity getAllMovies() {
         try {
             return movieService.getMovies();
@@ -33,6 +35,7 @@ public class MovieControl {
             e.printStackTrace();
             return new MovieEntity();
         }
+
     }
 
     @GetMapping("/orderByTitleAsc")
@@ -96,6 +99,7 @@ public class MovieControl {
         }
     }
 
+
     @GetMapping("/orderByReleaseDateDesc")
     public List<ResultsEntity> orderMoviesByReleaseDateDesc() {
         try {
@@ -106,4 +110,6 @@ public class MovieControl {
         }
     }
 
+
+    }
 }
