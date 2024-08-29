@@ -62,39 +62,6 @@ public class MovieService {
                 .collect(Collectors.toList());
     }
 
-    public List<ResultsEntity> orderMoviesByTitleAsc(List<ResultsEntity> movies) {
-        return orderByTitleAsc(movies);
-
-    }
-
-    public List<ResultsEntity> orderMoviesByTitleDesc(List<ResultsEntity> movies) {
-        return orderByTitleDesc(movies);
-    }
-
-    public List<ResultsEntity> orderByMoviePopularityAsc(List<ResultsEntity> movies) {
-        return orderByPopularityAscending(movies);
-    }
-
-    public List<ResultsEntity> orderByMoviePopularityDesc(List<ResultsEntity> movies) {
-        return Order.orderByPopularityDescending(movies);
-    }
-
-    public List<ResultsEntity> orderByMovieRatingAsc(List<ResultsEntity> movies) {
-        return Order.orderByRatingAscending(movies);
-    }
-
-    public List<ResultsEntity> orderByMovieRatingDesc(List<ResultsEntity> movies) {
-        return Order.orderByRatingDescending(movies);
-    }
-
-    public List<ResultsEntity> orderByReleaseDateAsc(List<ResultsEntity> movies) {
-        return Order.orderByReleaseDateAscending(movies);
-    }
-
-    public List<ResultsEntity> orderByReleaseDateDesc(List<ResultsEntity> movies) {
-        return Order.orderByReleaseDateDescending(movies);
-    }
-
     public List<ResultsEntity> filterMoviesByOriginalLanguage(List<ResultsEntity> movies, String language){
         return Filters.filterMoviesByOriginalLanguage(movies, language);
     }
