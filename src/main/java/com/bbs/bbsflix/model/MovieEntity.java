@@ -51,4 +51,6 @@ public class MovieEntity {
     public void setTotal_results(int total_results) {
         this.total_results = total_results;
     }
+
 }
+

@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface ResultsEntityREPO {
     ResultsEntity findById(int id);
+
+
 }
