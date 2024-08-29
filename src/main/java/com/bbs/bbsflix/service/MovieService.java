@@ -17,14 +17,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import static com.bbs.bbsflix.service.Order.*;
+
 
 @Service
 public class MovieService {
 
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
+
 
     @Value("${tmdb.api.key}")
     private String apiKey;
