@@ -154,4 +154,5 @@ public class ResultsEntity {
         this.vote_count = vote_count;
     }
 
+
 }

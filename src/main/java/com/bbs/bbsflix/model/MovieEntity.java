@@ -52,4 +52,5 @@ public class MovieEntity {
         this.total_results = total_results;
     }
 
+
 }
