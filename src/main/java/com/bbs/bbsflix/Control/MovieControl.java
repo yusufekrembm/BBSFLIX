@@ -42,7 +42,7 @@ public class MovieControl {
     }
 
     @RequestMapping("/filterAndOrderMovies")
-    public ResponseEntity<List<ResultsEntity>> filterMovies(
+    public ResponseEntity<List<ResultsEntity>> orderAndFilterMovies(
             @RequestParam(required = false) String title,
             @RequestParam(required = false) String language,
             @RequestParam(required = false) String releaseDate,

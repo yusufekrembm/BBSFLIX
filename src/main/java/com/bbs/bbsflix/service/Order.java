@@ -56,7 +56,4 @@ public class Order {
                 .sorted(Comparator.comparing(ResultsEntity::getRelease_date).reversed())
                 .toList();
     }
-
-
-
 }
