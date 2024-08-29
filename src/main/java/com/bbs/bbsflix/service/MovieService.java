@@ -17,14 +17,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import static com.bbs.bbsflix.service.Order.*;
+
 
 @Service
 public class MovieService {
 
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
+
 
     @Value("${tmdb.api.key}")
     private String apiKey;
@@ -40,12 +41,12 @@ public class MovieService {
         String url = "https://api.themoviedb.org/3/movie/popular?api_key=" + apiKey + "&language=en-US&page=11";
         String response = restTemplate.getForObject(url, String.class);
 
-        Map<String, Object> responseMap = objectMapper.readValue(response, new TypeReference<Map<String, Object>>(){});
+        Map<String, Object> responseMap = jacksonObjectMapper.readValue(response, new TypeReference<Map<String, Object>>(){});
         List<Map<String, Object>> resultsList = (List<Map<String, Object>>) responseMap.get("results");
 
         List<ResultsEntity> movieList = new ArrayList<>();
         for (Map<String, Object> movieMap : resultsList) {
-            ResultsEntity movie = objectMapper.convertValue(movieMap, ResultsEntity.class);
+            ResultsEntity movie = jacksonObjectMapper.convertValue(movieMap, ResultsEntity.class);
             movieList.add(movie);
         }
 
