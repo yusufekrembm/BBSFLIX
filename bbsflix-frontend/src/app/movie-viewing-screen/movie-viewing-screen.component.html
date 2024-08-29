@@ -1,0 +1,28 @@
+<div class="movie-viewing-screen">
+    <div class="movie-header">
+      <img src="assets/img/movie-poster-placeholder.png" alt="Movie Poster" class="movie-poster">
+      <div class="movie-details">
+        <h1 class="movie-title">Movie Title</h1>
+        <p class="movie-release-date">Release Date: 2024-01-01</p>
+        <p class="movie-rating">Rating: 8.5/10</p>
+      </div>
+    </div>
+    
+    <!-- Film İzleme Çerçevesi -->
+    <div class="movie-player">
+      <video controls class="video-player">
+        <source src="assets/video/sample-movie.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  
+    <div class="movie-description">
+      <h2>Description</h2>
+      <p>
+        This is a detailed description of the movie. It provides an overview of the plot, characters, and other relevant information to give viewers a better understanding of what the movie is about.
+      </p>
+    </div>
+    
+    <button class="back-button" (click)="goBack()">Back to Movies</button>
+  </div>
+  
