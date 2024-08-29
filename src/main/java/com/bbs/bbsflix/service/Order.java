@@ -21,9 +21,15 @@ public class Order {
                 .toList();
     }
 
-    public static List<ResultsEntity> orderByPopularity(List<ResultsEntity> movies) {
+    public static List<ResultsEntity> orderByPopularityAscending(List<ResultsEntity> movies) {
         return movies.stream()
                 .sorted(Comparator.comparing(ResultsEntity::getPopularity).reversed())
+                .toList();
+    }
+
+    public static List<ResultsEntity> orderByPopularityDescending(List<ResultsEntity> movies) {
+        return movies.stream()
+                .sorted(Comparator.comparing(ResultsEntity::getPopularity))
                 .toList();
     }
 
@@ -50,6 +56,7 @@ public class Order {
                 .sorted(Comparator.comparing(ResultsEntity::getRelease_date).reversed())
                 .toList();
     }
+
 
 
 }

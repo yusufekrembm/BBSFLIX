@@ -41,84 +41,14 @@ public class MovieControl {
 
     }
 
-    @GetMapping("/orderByTitleAsc")
-    public List<ResultsEntity> orderMoviesByTitleAsc() {
-        try {
-            MovieEntity movieEntity = movieService.getMovies();
-            return movieService.orderMoviesByTitleAsc(movieEntity.getResults());
-        } catch (IOException e) {
-            e.printStackTrace();
-            return List.of(); // Hata durumunda boş liste döndür
-        }
-    }
-
-    @GetMapping("/orderByTitleDesc")
-    public List<ResultsEntity> orderMoviesByTitleDesc() {
-        try {
-            MovieEntity movieEntity = movieService.getMovies();
-            return movieService.orderMoviesByTitleDesc(movieEntity.getResults());
-        } catch (IOException e) {
-            return List.of();
-        }
-    }
-
-    @GetMapping("/orderByPopularity")
-    public List<ResultsEntity> orderMoviesByPopularity() {
-        try {
-            MovieEntity movieEntity = movieService.getMovies();
-            return movieService.orderByMoviePopularity(movieEntity.getResults());
-        } catch (IOException e) {
-            return List.of();
-        }
-    }
-
-    @GetMapping("/orderByRatingAsc")
-    public List<ResultsEntity> orderMoviesByRatingAsc() {
-        try {
-            MovieEntity movieEntity = movieService.getMovies();
-            return movieService.orderByMovieRatingAsc(movieEntity.getResults());
-        } catch (IOException e) {
-            return List.of();
-        }
-    }
-
-    @GetMapping("/orderByRatingDesc")
-    public List<ResultsEntity> orderMoviesByRatingDesc() {
-        try {
-            MovieEntity movieEntity = movieService.getMovies();
-            return movieService.orderByMovieRatingDesc(movieEntity.getResults());
-        } catch (IOException e) {
-            return List.of();
-        }
-    }
-
-    @GetMapping("/orderByReleaseDateAsc")
-    public List<ResultsEntity> orderMoviesByReleaseDateAsc() {
-        try {
-            MovieEntity movieEntity = movieService.getMovies();
-            return movieService.orderByReleaseDateAsc(movieEntity.getResults());
-        } catch (IOException e) {
-            return List.of();
-        }
-    }
-
-
-    @GetMapping("/orderByReleaseDateDesc")
-    public List<ResultsEntity> orderMoviesByReleaseDateDesc() {
-        try {
-            MovieEntity movieEntity = movieService.getMovies();
-            return movieService.orderByReleaseDateDesc(movieEntity.getResults());
-        } catch (IOException e) {
-            return List.of();
-        }
-    }
-
-    @RequestMapping("/filterMovies")
+    @RequestMapping("/filterAndOrderMovies")
     public ResponseEntity<List<ResultsEntity>> filterMovies(
-            @RequestParam(required = false) String  title,
-            @RequestParam(required = false) String  language,
-            @RequestParam(required = false) String  releaseDate,
-            @RequestParam(required = false) Integer  genreId) throws IOException {
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String language,
+            @RequestParam(required = false) String releaseDate,
+            @RequestParam(required = false) Integer genreId,
+            @RequestParam(required = false, defaultValue = "title") String sortBy,
+            @RequestParam(required = false, defaultValue = "true") boolean ascending) {
         try {
             MovieEntity movieEntity = movieService.getMovies();
             List<ResultsEntity> filteredMovies = new ArrayList<>(movieEntity.getResults());
@@ -134,9 +64,12 @@ public class MovieControl {
             if (genreId != null) {
                 filteredMovies = movieService.filterMoviesByFirstGenreId(filteredMovies, genreId);
             }
+
+            filteredMovies = movieService.orderMovies(filteredMovies, sortBy, ascending);
             if (!filteredMovies.isEmpty()) {
                 return ResponseEntity.ok(filteredMovies);
-            } else {
+            }
+            else {
                 return ResponseEntity.notFound().build();
             }
         } catch (IOException e) {

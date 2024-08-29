@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static com.bbs.bbsflix.service.Order.*;
+
 @Service
 public class MovieService {
 
@@ -61,16 +63,20 @@ public class MovieService {
     }
 
     public List<ResultsEntity> orderMoviesByTitleAsc(List<ResultsEntity> movies) {
-        return Order.orderByTitleAsc(movies);
+        return orderByTitleAsc(movies);
 
     }
 
     public List<ResultsEntity> orderMoviesByTitleDesc(List<ResultsEntity> movies) {
-        return Order.orderByTitleDesc(movies);
+        return orderByTitleDesc(movies);
     }
 
-    public List<ResultsEntity> orderByMoviePopularity(List<ResultsEntity> movies) {
-        return Order.orderByPopularity(movies);
+    public List<ResultsEntity> orderByMoviePopularityAsc(List<ResultsEntity> movies) {
+        return orderByPopularityAscending(movies);
+    }
+
+    public List<ResultsEntity> orderByMoviePopularityDesc(List<ResultsEntity> movies) {
+        return Order.orderByPopularityDescending(movies);
     }
 
     public List<ResultsEntity> orderByMovieRatingAsc(List<ResultsEntity> movies) {
@@ -99,6 +105,21 @@ public class MovieService {
 
     public List<ResultsEntity> filterMoviesByFirstGenreId(List<ResultsEntity> movies, int firstGenre){
         return Filters.filterMoviesByFirstGenreId(movies, firstGenre);
+    }
+
+    public static List<ResultsEntity> orderMovies(List<ResultsEntity> movies, String sortBy, boolean ascending) {
+        switch (sortBy) {
+            case "title":
+                return ascending ? orderByTitleAsc(movies) : orderByTitleDesc(movies);
+            case "popularity":
+                return ascending ? orderByPopularityAscending(movies) : orderByPopularityDescending(movies);
+            case "rating":
+                return ascending ? orderByRatingAscending(movies) : orderByRatingDescending(movies);
+            case "releaseDate":
+                return ascending ? orderByReleaseDateAscending(movies) : orderByReleaseDateDescending(movies);
+            default:
+                return movies;
+        }
     }
 }
 
