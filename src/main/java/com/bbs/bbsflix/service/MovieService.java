@@ -11,10 +11,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.xml.transform.Result;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class MovieService {
@@ -52,12 +54,10 @@ public class MovieService {
         return new MovieEntity(page, movieList, totalPages, totalResults);
     }
 
-    public ResultsEntity getMovieByTitle(String title) throws IOException {
-        MovieEntity movieEntity = getMovies();
-        return movieEntity.getResults().stream()
+    public List<ResultsEntity> filterMoviesByTitle(List<ResultsEntity> movies, String title) {
+        return movies.stream()
                 .filter(movie -> movie.getTitle().equalsIgnoreCase(title))
-                .findFirst()
-                .orElse(null);
+                .collect(Collectors.toList());
     }
 
     public List<ResultsEntity> orderMoviesByTitleAsc(List<ResultsEntity> movies) {
