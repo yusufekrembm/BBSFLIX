@@ -1,35 +1,42 @@
 <div class="main-container">
-    <div class="sidebar">
-      <button class="filter-btn" (click)="showFilter('genre')">Filter by Genre</button>
-      <button class="filter-btn" (click)="showFilter('language')">Filter by Language</button>
-      <button class="filter-btn" (click)="showFilter('releaseDate')">Filter by Release Date</button>
-      
-      <!-- Filtre seçeneklerini göster -->
-      <div *ngIf="showFilterOptions" class="filter-options">
-        <div *ngFor="let option of filterOptions" (click)="selectFilter(option)" class="filter-option">
-          {{ option }}
-        </div>
+  <div class="sidebar">
+    <!-- Logo Alanı -->
+    <div class="logo-container">
+      <img src="/BBSFLIX/bbsflix-fronten/dsrc/assets">
+    </div>
+    
+    <!-- Filtre Butonları -->
+    <button class="filter-btn" (click)="showFilter('genre')">Filter by Genre</button>
+    <button class="filter-btn" (click)="showFilter('language')">Filter by Language</button>
+    <button class="filter-btn" (click)="showFilter('releaseDate')">Filter by Release Date</button>
+    
+    <!-- Filtre seçeneklerini göster -->
+    <div *ngIf="showFilterOptions" class="filter-options">
+      <div *ngFor="let option of filterOptions" (click)="selectFilter(option)" class="filter-option">
+        {{ option }}
       </div>
     </div>
-  
-    <div class="content">
+  </div>
+
+  <div class="content">
+    <div class="search-container">
       <input 
         type="text" 
         placeholder="Search movies..." 
         class="search-bar" 
         [(ngModel)]="searchQuery" 
-         
       />
-  <button (click)="onSearch()"> search</button>
-      <!-- Seçilen filtreleri göster -->
-      <div class="selected-filters">
-        Selected Filters: 
-        <span *ngFor="let filter of selectedFilter" class="filter-tag">
-          {{ filter }}
-        </span>
-      </div>
-  
-      <!-- Ana menü içeriği burada yer alacak -->
+      <button class="search-button" (click)="onSearch()">Search</button>
     </div>
+
+    <!-- Seçilen filtreleri göster -->
+    <div class="selected-filters">
+      Selected Filters: 
+      <span *ngFor="let filter of selectedFilter" class="filter-tag">
+        {{ filter }}
+      </span>
+    </div>
+
+    <!-- Ana menü içeriği burada yer alacak -->
   </div>
-  
+</div>
