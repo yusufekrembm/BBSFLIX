@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms'; 
 import { CommonModule } from '@angular/common'; 
+import { FrontServiceService } from '../front-service.service';
 
 @Component({
   selector: 'app-main-menu',
@@ -9,25 +10,17 @@ import { CommonModule } from '@angular/common';
   templateUrl: './main-menu.component.html',
   styleUrls: ['./main-menu.component.css']
 })
-export class MainMenuComponent {
+export class MainMenuComponent implements OnInit {
   searchQuery: string = ''; 
   selectedFilter: string[] = []; 
   filterOptions: string[] = []; 
   showFilterOptions: boolean = false; 
+  movies: any[] = [];
 
-  filterTypes: { [key: string]: string[] } = {
-    genre: ['Action', 'Adventure', 'Animation', 'Comedy', 'Crime', 'Documentary', 'Drama', 'Family', 'Fantasy', 'History', 'Horror', 'Music', 'Mystery', 'Romance', 'Science Fiction', 'TV Movie', 'Thriller', 'War', 'Western'],
-    language: ['English', 'Spanish', 'French', 'German', 'Chinese', 'Turkish'],
-    releaseDate: ['2020', '2021', '2022', '2023']
-  };
+  constructor(private frontService: FrontServiceService) {}
 
-  filterKeys = ['genre', 'language', 'releaseDate'] as const;
-
-  showFilter(type: string) {
-    if (this.filterKeys.includes(type as any)) {
-      this.filterOptions = this.filterTypes[type] || [];
-      this.showFilterOptions = true;
-    }
+  ngOnInit(): void {
+    this.showMovies(); // Load movies on initialization
   }
 
   selectFilter(option: string) {
@@ -45,7 +38,19 @@ export class MainMenuComponent {
     console.log('Selected filters:', this.selectedFilter);
   }
 
-  get selectedFilterDisplay() {
-    return this.selectedFilter.join(', ');
+  showMovies() {
+    this.frontService.getAllMovies().subscribe({
+      next: (data) => {
+        if (data && data.results) {
+          this.movies = data.results;
+          console.log(this.movies);
+        } else {
+          console.error('Unexpected data format:', data);
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching movies:', err);
+      }
+    });
   }
 }
