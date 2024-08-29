@@ -20,11 +20,15 @@ import java.util.stream.Collectors;
 
 import static com.bbs.bbsflix.service.Order.*;
 
+import java.util.stream.Collectors;
+
+
 @Service
 public class MovieService {
 
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
+
 
     @Value("${tmdb.api.key}")
     private String apiKey;
@@ -33,6 +37,7 @@ public class MovieService {
     public MovieService(RestTemplate restTemplate, ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
         this.objectMapper = objectMapper;
+
     }
 
     public MovieEntity getMovies() throws IOException {
@@ -40,12 +45,12 @@ public class MovieService {
         String url = "https://api.themoviedb.org/3/movie/popular?api_key=" + apiKey + "&language=en-US&page=11";
         String response = restTemplate.getForObject(url, String.class);
 
-        Map<String, Object> responseMap = objectMapper.readValue(response, new TypeReference<Map<String, Object>>(){});
+        Map<String, Object> responseMap = jacksonObjectMapper.readValue(response, new TypeReference<Map<String, Object>>(){});
         List<Map<String, Object>> resultsList = (List<Map<String, Object>>) responseMap.get("results");
 
         List<ResultsEntity> movieList = new ArrayList<>();
         for (Map<String, Object> movieMap : resultsList) {
-            ResultsEntity movie = objectMapper.convertValue(movieMap, ResultsEntity.class);
+            ResultsEntity movie = jacksonObjectMapper.convertValue(movieMap, ResultsEntity.class);
             movieList.add(movie);
         }
 
@@ -78,6 +83,31 @@ public class MovieService {
     public List<ResultsEntity> orderByMoviePopularityDesc(List<ResultsEntity> movies) {
         return Order.orderByPopularityDescending(movies);
     }
+
+    public ResultsEntity getMovieByTitle(String title) throws IOException {
+        MovieEntity movieEntity = getMovies();
+        return movieEntity.getResults().stream()
+                .filter(movie -> movie.getTitle().equalsIgnoreCase(title))
+                .findFirst()
+                .orElse(null);
+    }
+    public List<ResultsEntity> filterMoviesByOriginalLanguage(List<ResultsEntity> movies, String language) {
+        return movies.stream()
+                .filter(movie -> movie.getOriginal_language().equalsIgnoreCase(language))
+                .collect(Collectors.toList());
+    }
+    public List<ResultsEntity> filterMoviesByReleaseDate(List<ResultsEntity> movies, String releaseDate) {
+        return movies.stream()
+                .filter(movie -> movie.getRelease_date().equals(releaseDate))
+                .collect(Collectors.toList());
+    }
+    public List<ResultsEntity> filterMoviesByFirstGenreId(List<ResultsEntity> movies, int genreId) {
+        return movies.stream()
+                .filter(movie -> !movie.getGenre_ids().isEmpty() && movie.getGenre_ids().get(0) == genreId)
+                .collect(Collectors.toList());
+    }
+}
+
 
     public List<ResultsEntity> orderByMovieRatingAsc(List<ResultsEntity> movies) {
         return Order.orderByRatingAscending(movies);
