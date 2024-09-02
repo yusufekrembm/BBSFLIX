@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class FrontServiceService {
+export class FrontService {
   private baseUrl = 'http://localhost:8080/api/bbsflix';
 
   constructor(private http: HttpClient) { }

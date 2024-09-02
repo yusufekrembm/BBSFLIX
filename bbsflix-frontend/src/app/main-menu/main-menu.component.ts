@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgModule, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms'; 
 import { CommonModule } from '@angular/common'; 
-import { FrontServiceService } from '../front-service.service';
+import { AppComponent } from '../app.component';
+import { BrowserModule } from '@angular/platform-browser';
+import bootstrap from '../../main.server';
+import { FrontService } from '../front.service';
 
 @Component({
   selector: 'app-main-menu',
@@ -10,6 +13,7 @@ import { FrontServiceService } from '../front-service.service';
   templateUrl: './main-menu.component.html',
   styleUrls: ['./main-menu.component.css']
 })
+
 export class MainMenuComponent implements OnInit {
   searchQuery: string = ''; 
   selectedFilter: string[] = []; 
@@ -17,7 +21,7 @@ export class MainMenuComponent implements OnInit {
   showFilterOptions: boolean = false; 
   movies: any[] = [];
 
-  constructor(private frontService: FrontServiceService) {}
+  constructor(private frontService: FrontService) {}
 
   ngOnInit(): void {
     this.showMovies(); // Load movies on initialization
@@ -52,5 +56,9 @@ export class MainMenuComponent implements OnInit {
         console.error('Error fetching movies:', err);
       }
     });
+  }
+
+  getImageUrl(path: string): string {
+    return `https://image.tmdb.org/t/p/w500${path}`;
   }
 }
