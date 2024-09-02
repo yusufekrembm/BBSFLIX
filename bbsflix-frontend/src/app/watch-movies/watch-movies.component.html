@@ -2,10 +2,13 @@
   <div class="sidebar">
     <!-- Logo Alanı -->
     <div class="logo-container">
-      <img src="/BBSFLIX/bbsflix-fronten/dsrc/assets">
+      <img 
+      src="/BBSFLIX/bbsflix-fronten/dsrc/assets/logo.png"  
+      (click)="mainMenu()" 
+      style="cursor: pointer;"
+    />
     </div>
 
-    <!-- Filter by Genre -->
     <header>
       Filter By Genre
       <button>Action</button>
@@ -29,7 +32,6 @@
       <button>Western</button>
     </header>
 
-    <!-- Filter by Language -->
     <header>
       Filter by Language
       <button>English</button>
@@ -40,7 +42,6 @@
       <button>Turkish</button>
     </header>
 
-    <!-- Filter by Release Date -->
     <header>
       Filter by Release Date
       <button>2024</button>
@@ -63,33 +64,15 @@
       <button class="search-button" (click)="onSearch()">Search</button>
     </div>
 
-    <!-- Seçilen filtreleri göster -->
-    <div class="selected-filters">
-      Selected Filters: 
-      <span *ngFor="let filter of selectedFilter" class="filter-tag">
-        {{ filter }}
-      </span>
-    </div>
 
-    <!-- Sıralama seçenekleri -->
-    <div class="order-options">
-      <header>
-        Order by:
-        <button >Popularity</button>
-        <button >Release Date</button>
-        <button >Rating</button>
-        <button >Title</button>
-      </header>
-    </div>
-
-      <!-- Filmleri listelemek için -->
-      <div class="movies-list">
-        <div *ngFor="let movie of movies" class="movie-item">
-          <h3 (click)="viewMovieDetails(movie.id)" style="cursor: pointer;">{{ movie.title }}</h3>
-          <p>{{ movie.release_date }}</p>
-          <p>{{ movie.overview }}</p>
-          <img [src]="getImageUrl(movie.poster_path)" alt="{{ movie.title }} poster">
-        </div>
-      </div>
+<div *ngIf="movie">
+    <h1>{{ movie.title }}</h1>
+    <img [src]="getImageUrl(movie.backdrop_path)" alt="{{ movie.title }} poster">
+    <p>Release Date: {{ movie.release_date }}</p>
+    <p>Overview: {{ movie.overview }}</p>
+    <p>Popularity: {{ movie.popularity }}</p>
+    <p>Rating: {{ movie.vote_average }}</p>
+    
   </div>
-</div>
+
+  

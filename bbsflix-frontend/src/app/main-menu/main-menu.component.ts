@@ -1,19 +1,16 @@
-import { Component, NgModule, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms'; 
 import { CommonModule } from '@angular/common'; 
-import { AppComponent } from '../app.component';
-import { BrowserModule } from '@angular/platform-browser';
-import bootstrap from '../../main.server';
+import { Router } from '@angular/router';
 import { FrontService } from '../front.service';
 
 @Component({
   selector: 'app-main-menu',
   standalone: true,
-  imports: [FormsModule, CommonModule], 
+  imports: [FormsModule, CommonModule],
   templateUrl: './main-menu.component.html',
   styleUrls: ['./main-menu.component.css']
 })
-
 export class MainMenuComponent implements OnInit {
   searchQuery: string = ''; 
   selectedFilter: string[] = []; 
@@ -21,10 +18,10 @@ export class MainMenuComponent implements OnInit {
   showFilterOptions: boolean = false; 
   movies: any[] = [];
 
-  constructor(private frontService: FrontService) {}
+  constructor(private frontService: FrontService, private router: Router) {}
 
   ngOnInit(): void {
-    this.showMovies(); // Load movies on initialization
+    this.showMovies(); 
   }
 
   selectFilter(option: string) {
@@ -58,7 +55,13 @@ export class MainMenuComponent implements OnInit {
     });
   }
 
+  // Film detaylarına yönlendirme yapacak fonksiyon
+  viewMovieDetails(id: string): void {
+    this.router.navigate(['/watchMovies', id]);
+  }
+
   getImageUrl(path: string): string {
     return `https://image.tmdb.org/t/p/w500${path}`;
   }
+
 }

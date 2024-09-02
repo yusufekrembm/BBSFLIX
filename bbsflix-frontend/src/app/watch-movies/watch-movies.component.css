@@ -1,0 +1,179 @@
+/* Genel ayarlar */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+    color: #333;
+  }
+  
+  .main-container {
+    display: flex;
+    min-height: 100vh;
+  }
+  
+  /* Sidebar stilleri */
+  .sidebar {
+    width: 250px;
+    background-color: #282c34;
+    padding: 20px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .sidebar header {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .sidebar button {
+    background-color: #81a2d3;
+    color: #282c34;
+    border: none;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    font-size: 16px;
+  }
+  
+  .sidebar button:hover {
+    background-color: #21a1f1;
+  }
+  
+  /* Logo alanı */
+  .logo-container {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .logo-container img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* Content alanı */
+  .content {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  /* Search bar */
+  .search-container {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .search-bar {
+    flex-grow: 1;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .search-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #81a2d3;
+    color: #282c34;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .search-button:hover {
+    background-color: #21a1f1;
+  }
+  
+  /* Seçilen filtreler */
+  .selected-filters {
+    font-size: 16px;
+  }
+  
+  .selected-filters .filter-tag {
+    display: inline-block;
+    background-color: #007bff;
+    color: #fff;
+    padding: 5px 10px;
+    margin: 0 5px 5px 0;
+    border-radius: 5px;
+  }
+  
+  /* Sıralama seçenekleri */
+  .order-options header {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .order-options button {
+    background-color: #81a2d3;
+    color: #282c34;
+    border: none;
+    padding: 10px 15px;
+    margin-right: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .order-options button:hover {
+    background-color: #21a1f1;
+  }
+  
+  /* Responsive Tasarım */
+  @media (max-width: 768px) {
+    .main-container {
+      flex-direction: column;
+    }
+  
+    .sidebar {
+      width: 100%;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-around;
+    }
+  
+    .sidebar header {
+      flex-basis: 100%;
+      text-align: center;
+    }
+  
+    .content {
+      padding: 10px;
+    }
+  
+    .order-options header {
+      text-align: center;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .search-container {
+      flex-direction: column;
+    }
+  
+    .search-bar, .search-button {
+      width: 100%;
+      box-sizing: border-box;
+    }
+  
+    .order-options button {
+      margin-bottom: 10px;
+      width: 100%;
+    }
+  
+    .selected-filters .filter-tag {
+      width: 100%;
+      text-align: center;
+    }
+  }
+  
