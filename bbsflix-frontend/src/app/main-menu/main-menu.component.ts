@@ -20,7 +20,9 @@ export class MainMenuComponent implements OnInit {
   filterOptions: string[] = []; 
   showFilterOptions: boolean = false; 
   movies: any[] = [];
-
+ 
+  title: string = '';
+ 
   constructor(private frontService: FrontService) {}
 
   ngOnInit(): void {
@@ -61,4 +63,11 @@ export class MainMenuComponent implements OnInit {
   getImageUrl(path: string): string {
     return `https://image.tmdb.org/t/p/w500${path}`;
   }
+  searchMovies() {
+    this.frontService.getFilteredMovies(this.title).subscribe(
+      data => this.movies = data,
+      error => console.error('Error fetching movies', error)
+    );
+  }
+ 
 }

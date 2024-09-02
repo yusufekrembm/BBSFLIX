@@ -51,9 +51,51 @@
       <button>2019</button>
     </header>
   </div>
+ <!--  <div>
+    <input type="text" placeholder="Search by title" #searchInput />
+    <button (click)="searchMovies()">Search</button>
+  </div>
+  
+  <div *ngIf="error" class="error">
+    {{ error }}
+  </div>
+  
+  <div *ngIf="movies.length > 0">
+    <ul>
+      <li *ngFor="let movie of movies">
+        {{ movie.title }} 
+    </ul>
+  </div> -->
+  
+
+
+
 
   <div class="content">
-    <div class="search-container">
+
+    <div>
+      <h2>Movie Search</h2>
+      <input [(ngModel)]="title" placeholder="Enter movie title" />
+      <button (click)="searchMovies()">Search</button>
+      
+      <div *ngIf="movies.length > 0; else noMovies">
+        <ul>
+          <li *ngFor="let movie of movies">
+            <h3>{{ movie.title }}</h3>
+            <p>{{ movie.overview }}</p>
+            <p><strong>Release Date:</strong> {{ movie.release_date }}</p>
+          </li>
+        </ul>
+      </div>
+      <ng-template #noMovies>
+        <p>No movies found.</p>
+      </ng-template>
+    </div>
+
+
+
+
+    <!--<div class="search-container">
       <input 
         type="text" 
         placeholder="Search movies..." 
@@ -61,7 +103,7 @@
         [(ngModel)]="searchQuery" 
       />
       <button class="search-button" (click)="onSearch()">Search</button>
-    </div>
+    </div> -->
 
     <!-- Seçilen filtreleri göster -->
     <div class="selected-filters">
@@ -91,6 +133,7 @@
         <p>{{ movie.overview }}</p>
         <p>{{ movie.original_language }}</p>
         <p>{{ movie.vote_average }}</p>
+        <button>{{ movie.title }}</button>
       </div>
     </div>
   </div>
