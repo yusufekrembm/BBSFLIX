@@ -83,15 +83,13 @@
     </div>
 
       <!-- Filmleri listelemek için -->
-    <div class="movies-list">
-      <div *ngFor="let movie of movies" class="movie-item">
-        <h3>{{ movie.title }}</h3>
-        <img [src]="getImageUrl(movie.poster_path)" alt="{{ movie.title }} poster">
-        <p>{{ movie.release_date }}</p>
-        <p>{{ movie.overview }}</p>
-        <p>{{ movie.original_language }}</p>
-        <p>{{ movie.vote_average }}</p>
+      <div class="movies-list">
+        <div *ngFor="let movie of movies" class="movie-item">
+          <h3 (click)="viewMovieDetails(movie.id)" style="cursor: pointer;">{{ movie.title }}</h3>
+          <p>{{ movie.release_date }}</p>
+          <p>{{ movie.overview }}</p>
+          <img [src]="getImageUrl(movie.poster_path)" alt="{{ movie.title }} poster">
+        </div>
       </div>
-    </div>
   </div>
 </div>

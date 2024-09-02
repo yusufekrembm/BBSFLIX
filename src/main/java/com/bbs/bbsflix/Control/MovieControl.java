@@ -73,5 +73,21 @@ public class MovieControl {
         }
 
     }
+
+    @GetMapping("/movie/{id}")
+    public ResponseEntity<ResultsEntity> getMovieById(@PathVariable("id") String id) throws IOException {
+        try{
+            MovieEntity movieEntity = movieService.getMovies();
+            ResultsEntity movie = movieService.findMovieById(movieEntity, id);
+
+            if (movie != null) {
+                return ResponseEntity.ok(movie);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch(IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }
 

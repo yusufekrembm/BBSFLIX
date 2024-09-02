@@ -1,0 +1,10 @@
+<div *ngIf="movie">
+    <h1>{{ movie.title }}</h1>
+    <img [src]="getImageUrl(movie.poster_path)" alt="{{ movie.title }} poster">
+    <p>Release Date: {{ movie.release_date }}</p>
+    <p>Overview: {{ movie.overview }}</p>
+    <p>Popularity: {{ movie.popularity }}</p>
+    <p>Rating: {{ movie.vote_average }}</p>
+    <!-- Film izleme yeri ya da bağlantısı -->
+    <p>Watch it <a [href]="movie.watch_url" target="_blank">here</a></p>
+  </div>
