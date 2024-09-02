@@ -57,4 +57,8 @@ export class MainMenuComponent implements OnInit {
       }
     });
   }
+
+  getImageUrl(path: string): string {
+    return `https://image.tmdb.org/t/p/w500${path}`;
+  }
 }
