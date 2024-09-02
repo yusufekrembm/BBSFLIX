@@ -161,6 +161,22 @@ body {
   border-radius: 5px;
 }
 
+/* Clear Filters Butonu */
+.clear-filters-button {
+  background-color: #6c757d; /* Diğer butonlarla uyumlu renk */
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+.clear-filters-button:hover {
+  background-color: #515558; /* Hover rengi */
+}
+
 /* Sıralama seçenekleri */
 .order-options header {
   font-size: 18px;
