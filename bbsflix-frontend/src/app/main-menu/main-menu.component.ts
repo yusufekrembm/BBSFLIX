@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms'; 
 import { CommonModule } from '@angular/common'; 
-import { Router } from '@angular/router'; // Router'ı import edin
+import { Router } from '@angular/router';
 import { FrontService } from '../front.service';
 
 @Component({
@@ -57,7 +57,6 @@ export class MainMenuComponent implements OnInit {
 
   // Film detaylarına yönlendirme yapacak fonksiyon
   viewMovieDetails(id: string): void {
-    console.log('deneme')
     this.router.navigate(['/watchMovies', id]);
   }
 

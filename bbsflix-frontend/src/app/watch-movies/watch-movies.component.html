@@ -1,10 +1,101 @@
+<div class="main-container">
+  <div class="sidebar">
+    <!-- Logo Alanı -->
+    <div class="logo-container">
+      <img 
+      src="/BBSFLIX/bbsflix-fronten/dsrc/assets/logo.png"  
+      (click)="mainMenu()" 
+      style="cursor: pointer;"
+    />
+    </div>
+
+    <!-- Filter by Genre -->
+    <header>
+      Filter By Genre
+      <button>Action</button>
+      <button>Adventure</button>
+      <button>Animation</button>
+      <button>Comedy</button>
+      <button>Crime</button>
+      <button>Documentary</button>
+      <button>Drama</button>
+      <button>Family</button>
+      <button>Fantasy</button>
+      <button>History</button>
+      <button>Horror</button>
+      <button>Music</button>
+      <button>Mystery</button>
+      <button>Romance</button>
+      <button>Science Fiction</button>
+      <button>TV Movie</button>
+      <button>Thriller</button>
+      <button>War</button>
+      <button>Western</button>
+    </header>
+
+    <!-- Filter by Language -->
+    <header>
+      Filter by Language
+      <button>English</button>
+      <button>Spanish</button>
+      <button>French</button>
+      <button>German</button>
+      <button>Chinese</button>
+      <button>Turkish</button>
+    </header>
+
+    <!-- Filter by Release Date -->
+    <header>
+      Filter by Release Date
+      <button>2024</button>
+      <button>2023</button>
+      <button>2022</button>
+      <button>2021</button>
+      <button>2020</button>
+      <button>2019</button>
+    </header>
+  </div>
+
+  <div class="content">
+    <div class="search-container">
+      <input 
+        type="text" 
+        placeholder="Search movies..." 
+        class="search-bar" 
+        [(ngModel)]="searchQuery" 
+      />
+      <button class="search-button" (click)="onSearch()">Search</button>
+    </div>
+
+    <!-- Seçilen filtreleri göster -->
+    <div class="selected-filters">
+      Selected Filters: 
+      <span *ngFor="let filter of selectedFilter" class="filter-tag">
+        {{ filter }}
+      </span>
+    </div>
+
+    <!-- Sıralama seçenekleri -->
+    <div class="order-options">
+      <header>
+        Order by:
+        <button >Popularity</button>
+        <button >Release Date</button>
+        <button >Rating</button>
+        <button >Title</button>
+      </header>
+    </div>
+
+
 <div *ngIf="movie">
     <h1>{{ movie.title }}</h1>
-    <img [src]="getImageUrl(movie.poster_path)" alt="{{ movie.title }} poster">
+    <img [src]="getImageUrl(movie.backdrop_path)" alt="{{ movie.title }} poster">
     <p>Release Date: {{ movie.release_date }}</p>
     <p>Overview: {{ movie.overview }}</p>
     <p>Popularity: {{ movie.popularity }}</p>
     <p>Rating: {{ movie.vote_average }}</p>
     <!-- Film izleme yeri ya da bağlantısı -->
-    <p>Watch it <a [href]="movie.watch_url" target="_blank">here</a></p>
+    
   </div>
+
+  
