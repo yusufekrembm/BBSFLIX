@@ -52,21 +52,40 @@ export class MainMenuComponent implements OnInit {
     });
   }
   
-  
 
   selectFilter(option: string) {
     const parts = option.split(':');
     const key = parts[0];
     const value = parts[1];
-  
+    
     if (key === 'genre') {
       const genreId = this.getGenreId(value);
-      this.selectedFilter = [`genreId:${genreId}`];
-    } else {
+      if (genreId !== null) {
+        // Mevcut filtrelerde varsa, güncelle, yoksa ekle
+        this.updateOrAddFilter('genreId', genreId.toString());
+      }
+    } else if (key === 'language') {
+      const languageCode = this.getLanguage(value);
+      if (languageCode !== null) {
+        // Mevcut filtrelerde varsa, güncelle, yoksa ekle
+        this.updateOrAddFilter('language', languageCode);
+      }
     }
-  
+    
+    // Filtre seçeneklerini kapat
     this.showFilterOptions = false;
   }
+  
+  // Mevcut filtrelerde varsa güncelle, yoksa ekle
+  updateOrAddFilter(key: string, value: string) {
+    const index = this.selectedFilter.findIndex(filter => filter.startsWith(key));
+    if (index !== -1) {
+      this.selectedFilter[index] = `${key}:${value}`;
+    } else {
+      this.selectedFilter.push(`${key}:${value}`);
+    }
+  }
+  
 
 
   showMovies() {
@@ -83,14 +102,6 @@ export class MainMenuComponent implements OnInit {
         console.error('Error fetching movies:', err);
       }
     });
-  }
-
-  viewMovieDetails(id: string): void {
-    this.router.navigate(['/watchMovies', id]);
-  }
-
-  getImageUrl(path: string): string {
-    return `https://image.tmdb.org/t/p/w500${path}`;
   }
 
   getGenreId(genreName: string): number | null {
@@ -119,9 +130,31 @@ export class MainMenuComponent implements OnInit {
     return genreMap[genreName] || null;
   }
 
+  getLanguage(language: string): string | null {
+    const languageMap: { [key: string]: string } = {
+      'English': 'en',
+      'Spanish': 'es',
+      'French': 'fr',
+      'German': 'de',
+      'Chinese': 'zh',
+      'Turkish': 'tr'
+    };
+  
+    return languageMap[language] || null;
+  }
+
   clearFilters() {
     this.selectedFilter = [];
     this.searchQuery = '';
     this.showMovies();
   }
+
+  viewMovieDetails(id: string): void {
+    this.router.navigate(['/watchMovies', id]);
+  }
+
+  getImageUrl(path: string): string {
+    return `https://image.tmdb.org/t/p/w500${path}`;
+  }
+
 }
