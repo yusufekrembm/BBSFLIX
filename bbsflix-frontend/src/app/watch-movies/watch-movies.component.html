@@ -1,3 +1,4 @@
+
 <div class="main-container">
   <div class="sidebar">
     <!-- Logo Alanı -->
@@ -65,14 +66,22 @@
     </div>
 
 
-<div *ngIf="movie">
-    <h1>{{ movie.title }}</h1>
-    <img [src]="getImageUrl(movie.backdrop_path)" alt="{{ movie.title }} poster">
-    <p>Release Date: {{ movie.release_date }}</p>
-    <p>Overview: {{ movie.overview }}</p>
-    <p>Popularity: {{ movie.popularity }}</p>
-    <p>Rating: {{ movie.vote_average }}</p>
-    
-  </div>
+    <div class="content">
+      <!-- Film bilgileri -->
+      <div *ngIf="movie" class="movie-details">
+        <div class="movie-header">
+          <h1>{{ movie.title }}</h1>
+          <p class="release-date">Release Date: {{ movie.release_date }}</p>
+        </div>
+        <div class="movie-image">
+          <img [src]="getImageUrl(movie.backdrop_path)" alt="{{ movie.title }} poster">
+        </div>
+        <div class="movie-info">
+          <p class="overview">{{ movie.overview }}</p>
+          <p class="popularity">Popularity: {{ movie.popularity }}</p>
+          <p class="rating">Rating: {{ movie.vote_average }}</p>
+        </div>
+      </div>
+    </div>
 
   
