@@ -9,7 +9,6 @@
     />
     </div>
 
-    <!-- Filter by Genre -->
     <header>
       Filter By Genre
       <button>Action</button>
@@ -33,7 +32,6 @@
       <button>Western</button>
     </header>
 
-    <!-- Filter by Language -->
     <header>
       Filter by Language
       <button>English</button>
@@ -44,7 +42,6 @@
       <button>Turkish</button>
     </header>
 
-    <!-- Filter by Release Date -->
     <header>
       Filter by Release Date
       <button>2024</button>
@@ -67,25 +64,6 @@
       <button class="search-button" (click)="onSearch()">Search</button>
     </div>
 
-    <!-- Seçilen filtreleri göster -->
-    <div class="selected-filters">
-      Selected Filters: 
-      <span *ngFor="let filter of selectedFilter" class="filter-tag">
-        {{ filter }}
-      </span>
-    </div>
-
-    <!-- Sıralama seçenekleri -->
-    <div class="order-options">
-      <header>
-        Order by:
-        <button >Popularity</button>
-        <button >Release Date</button>
-        <button >Rating</button>
-        <button >Title</button>
-      </header>
-    </div>
-
 
 <div *ngIf="movie">
     <h1>{{ movie.title }}</h1>
@@ -94,7 +72,6 @@
     <p>Overview: {{ movie.overview }}</p>
     <p>Popularity: {{ movie.popularity }}</p>
     <p>Rating: {{ movie.vote_average }}</p>
-    <!-- Film izleme yeri ya da bağlantısı -->
     
   </div>
 
