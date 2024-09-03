@@ -1,0 +1,87 @@
+
+<div class="main-container">
+  <div class="sidebar">
+    <!-- Logo Alanı -->
+    <div class="logo-container">
+      <img 
+      src="/BBSFLIX/bbsflix-fronten/dsrc/assets/logo.png"  
+      (click)="mainMenu()" 
+      style="cursor: pointer;"
+    />
+    </div>
+
+    <header>
+      Filter By Genre
+      <button>Action</button>
+      <button>Adventure</button>
+      <button>Animation</button>
+      <button>Comedy</button>
+      <button>Crime</button>
+      <button>Documentary</button>
+      <button>Drama</button>
+      <button>Family</button>
+      <button>Fantasy</button>
+      <button>History</button>
+      <button>Horror</button>
+      <button>Music</button>
+      <button>Mystery</button>
+      <button>Romance</button>
+      <button>Science Fiction</button>
+      <button>TV Movie</button>
+      <button>Thriller</button>
+      <button>War</button>
+      <button>Western</button>
+    </header>
+
+    <header>
+      Filter by Language
+      <button>English</button>
+      <button>Spanish</button>
+      <button>French</button>
+      <button>German</button>
+      <button>Chinese</button>
+      <button>Turkish</button>
+    </header>
+
+    <header>
+      Filter by Release Date
+      <button>2024</button>
+      <button>2023</button>
+      <button>2022</button>
+      <button>2021</button>
+      <button>2020</button>
+      <button>2019</button>
+    </header>
+  </div>
+
+  <div class="content">
+    <div class="search-container">
+      <input 
+        type="text" 
+        placeholder="Search movies..." 
+        class="search-bar" 
+        [(ngModel)]="searchQuery" 
+      />
+      <button class="search-button" (click)="onSearch()">Search</button>
+    </div>
+
+
+    <div class="content">
+      <!-- Film bilgileri -->
+      <div *ngIf="movie" class="movie-details">
+        <div class="movie-header">
+          <h1>{{ movie.title }}</h1>
+          <p class="release-date">Release Date: {{ movie.release_date }}</p>
+        </div>
+        <div class="movie-image">
+          <img [src]="getImageUrl(movie.backdrop_path)" alt="{{ movie.title }} poster">
+        </div>
+        <div class="movie-info">
+          <p class="overview">{{ movie.overview }}</p>
+          <p class="popularity">Popularity: {{ movie.popularity }}</p>
+          <p class="rating">Rating: {{ movie.vote_average }}</p>
+        </div>
+      </div>
+    </div>
+
+  

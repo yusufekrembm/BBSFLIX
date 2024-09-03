@@ -88,7 +88,15 @@ public class MovieService {
             default:
                 return movies;
         }
+    }
 
+    public ResultsEntity findMovieById(MovieEntity movieEntity, String id) {
+        for (ResultsEntity movie : movieEntity.getResults()) {
+            if (movie.getId() == Integer.parseInt(id)) {
+                return movie;
+            }
+        }
+        return null;
     }
 }
 

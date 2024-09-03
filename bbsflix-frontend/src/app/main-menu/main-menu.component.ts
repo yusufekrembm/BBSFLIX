@@ -1,48 +1,92 @@
-import { Component, NgModule, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms'; 
 import { CommonModule } from '@angular/common'; 
-import { AppComponent } from '../app.component';
-import { BrowserModule } from '@angular/platform-browser';
-import bootstrap from '../../main.server';
+import { Router } from '@angular/router';
 import { FrontService } from '../front.service';
 
 @Component({
   selector: 'app-main-menu',
   standalone: true,
-  imports: [FormsModule, CommonModule], 
+  imports: [FormsModule, CommonModule],
   templateUrl: './main-menu.component.html',
   styleUrls: ['./main-menu.component.css']
 })
-
 export class MainMenuComponent implements OnInit {
   searchQuery: string = ''; 
   selectedFilter: string[] = []; 
   filterOptions: string[] = []; 
   showFilterOptions: boolean = false; 
   movies: any[] = [];
- 
-  title: string = '';
- 
-  constructor(private frontService: FrontService) {}
+
+  constructor(private frontService: FrontService, private router: Router) {}
 
   ngOnInit(): void {
-    this.showMovies(); // Load movies on initialization
+    this.showMovies(); 
   }
 
-  selectFilter(option: string) {
-    const index = this.selectedFilter.findIndex(f => f.startsWith(option.split(':')[0]));
-    if (index !== -1) {
-      this.selectedFilter[index] = option;
-    } else {
-      this.selectedFilter.push(option);
-    }
-    this.showFilterOptions = false;
-  }
 
   onSearch() {
-    console.log('Searching for:', this.searchQuery);
-    console.log('Selected filters:', this.selectedFilter);
+    const filters: any = { title: this.searchQuery };
+    // Extract filter values
+    this.selectedFilter.forEach(filter => {
+      const [key, value] = filter.split(':');
+      if (key && value) {
+        filters[key] = value;
+      }
+    });
+  
+    console.log('Filters:', filters);
+  
+    this.frontService.filterAndOrderMovies(filters).subscribe({
+      next: (data) => {
+        if (data) {
+          this.movies = data;
+          console.log('Filtered Movies:', this.movies);
+        } else {
+          console.error('No movies found for the given query.');
+        }
+      },
+      error: (err) => {
+        console.error('Error filtering movies:', err);
+      }
+    });
   }
+  
+
+  selectFilter(option: string) {
+    const parts = option.split(':');
+    const key = parts[0];
+    const value = parts[1];
+    
+    if (key === 'genre') {
+      const genreId = this.getGenreId(value);
+      if (genreId !== null) {
+        // Mevcut filtrelerde varsa, güncelle, yoksa ekle
+        this.updateOrAddFilter('genreId', genreId.toString());
+      }
+    } else if (key === 'language') {
+      const languageCode = this.getLanguage(value);
+      if (languageCode !== null) {
+        // Mevcut filtrelerde varsa, güncelle, yoksa ekle
+        this.updateOrAddFilter('language', languageCode);
+      }
+    }
+    
+    // Filtre seçeneklerini kapat
+    this.showFilterOptions = false;
+  }
+  
+  // Mevcut filtrelerde varsa güncelle, yoksa ekle
+  updateOrAddFilter(key: string, value: string) {
+    const index = this.selectedFilter.findIndex(filter => filter.startsWith(key));
+    if (index !== -1) {
+      this.selectedFilter[index] = `${key}:${value}`;
+    } else {
+      this.selectedFilter.push(`${key}:${value}`);
+    }
+  }
+  
+
 
   showMovies() {
     this.frontService.getAllMovies().subscribe({
@@ -60,14 +104,57 @@ export class MainMenuComponent implements OnInit {
     });
   }
 
+  getGenreId(genreName: string): number | null {
+    const genreMap: { [key: string]: number } = {
+      'Action': 28,
+      'Adventure': 12,
+      'Animation': 16,
+      'Comedy': 35,
+      'Crime': 80,
+      'Documentary': 99,
+      'Drama': 18,
+      'Family': 10751,
+      'Fantasy': 14,
+      'History': 36,
+      'Horror': 27,
+      'Music': 10402,
+      'Mystery': 9648,
+      'Romance': 10749,
+      'Science Fiction': 878,
+      'TV Movie': 10770,
+      'Thriller': 53,
+      'War': 10752,
+      'Western': 37
+    };
+
+    return genreMap[genreName] || null;
+  }
+
+  getLanguage(language: string): string | null {
+    const languageMap: { [key: string]: string } = {
+      'English': 'en',
+      'Spanish': 'es',
+      'French': 'fr',
+      'German': 'de',
+      'Chinese': 'zh',
+      'Turkish': 'tr'
+    };
+  
+    return languageMap[language] || null;
+  }
+
+  clearFilters() {
+    this.selectedFilter = [];
+    this.searchQuery = '';
+    this.showMovies();
+  }
+
+  viewMovieDetails(id: string): void {
+    this.router.navigate(['/watchMovies', id]);
+  }
+
   getImageUrl(path: string): string {
     return `https://image.tmdb.org/t/p/w500${path}`;
   }
-  searchMovies() {
-    this.frontService.getFilteredMovies(this.title).subscribe(
-      data => this.movies = data,
-      error => console.error('Error fetching movies', error)
-    );
-  }
- 
+
 }
