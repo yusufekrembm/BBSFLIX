@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { catchError, Observable, throwError } from 'rxjs';
+import { ResultsEntity } from './results-entity.model';
+
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +42,39 @@ export class FrontService {
     return this.http.get(`${this.baseUrl}/filterAndOrderMovies`, { params });
   }
 
+  ffilterAndOrderMovies(params: {
+    title?: string;
+    language?: string;
+    releaseDate?: string;
+    genreId?: number;
+    sortBy?: string;
+    ascending?: boolean;
+  }): Observable<ResultsEntity[]> {
+    let httpParams = new HttpParams();
+    if (params.title) httpParams = httpParams.set('title', params.title);
+    if (params.language) httpParams = httpParams.set('language', params.language);
+    if (params.releaseDate) httpParams = httpParams.set('releaseDate', params.releaseDate);
+    if (params.genreId) httpParams = httpParams.set('genreId', params.genreId.toString());
+    if (params.sortBy) httpParams = httpParams.set('sortBy', params.sortBy);
+    if (params.ascending !== undefined) httpParams = httpParams.set('ascending', params.ascending.toString());
+  
+    return this.http.get<ResultsEntity[]>(`${this.baseUrl}/filterAndOrderMovies`, { params: httpParams }).pipe(
+      catchError(this.handleError)
+    );
+  }
+  private handleError(error: HttpErrorResponse) {
+    let errorMessage = 'An unknown error occurred!';
+    if (error.error instanceof ErrorEvent) {
+      // Client-side or network error
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      // Backend returned an unsuccessful response code
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    // Here you could log the error to an external service if needed
+    return throwError(errorMessage);
+  }
+  
 
 
 

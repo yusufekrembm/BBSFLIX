@@ -1,54 +1,40 @@
+<!-- src/app/main-menu/main-menu.component.html -->
+
 <div class="main-container">
+  <!-- Sidebar with Filter Options -->
   <div class="sidebar">
     <div class="logo-container">
-      <img src="/BBSFLIX/bbsflix-fronten/dsrc/assets">
+      <img src="/BBSFLIX/bbsflix-fronten/dsrc/assets/logo.png" alt="Logo">
     </div>
 
+    <!-- Genre Filter -->
     <header>
       Filter By Genre
-      <button (click)="selectFilter('genre:Action')">Action</button>
-      <button (click)="selectFilter('genre:Adventure')">Adventure</button>
-      <button (click)="selectFilter('genre:Animation')">Animation</button>
-      <button (click)="selectFilter('genre:Comedy')">Comedy</button>
-      <button (click)="selectFilter('genre:Crime')">Crime</button>
-      <button (click)="selectFilter('genre:Documentary')">Documentary</button>
-      <button (click)="selectFilter('genre:Drama')">Drama</button>
-      <button (click)="selectFilter('genre:Family')">Family</button>
-      <button (click)="selectFilter('genre:Fantasy')">Fantasy</button>
-      <button (click)="selectFilter('genre:History')">History</button>
-      <button (click)="selectFilter('genre:Horror')">Horror</button>
-      <button (click)="selectFilter('genre:Music')">Music</button>
-      <button (click)="selectFilter('genre:Mystery')">Mystery</button>
-      <button (click)="selectFilter('genre:Romance')">Romance</button>
-      <button (click)="selectFilter('genre:Science Fiction')">Science Fiction</button>
-      <button (click)="selectFilter('genre:TV Movie')">TV Movie</button>
-      <button (click)="selectFilter('genre:Thriller')">Thriller</button>
-      <button (click)="selectFilter('genre:War')">War</button>
-      <button (click)="selectFilter('genre:Western')">Western</button>
+      <button *ngFor="let genre of genres" (click)="selectFilter('genre:' + genre)">
+        {{ genre }}
+      </button>
     </header>
 
+    <!-- Language Filter -->
     <header>
       Filter by Language
-      <button (click)="selectFilter('language:English')">English</button>
-      <button (click)="selectFilter('language:Spanish')">Spanish</button>
-      <button (click)="selectFilter('language:French')">French</button>
-      <button (click)="selectFilter('language:German')">German</button>
-      <button (click)="selectFilter('language:Chinese')">Chinese</button>
-      <button (click)="selectFilter('language:Turkish')">Turkish</button>
+      <button *ngFor="let language of languages" (click)="selectFilter('language:' + language)">
+        {{ language }}
+      </button>
     </header>
 
+    <!-- Release Date Filter -->
     <header>
       Filter by Release Date
-      <button (click)="selectFilter('releaseDate:2024')">2024</button>
-      <button (click)="selectFilter('releaseDate:2023')">2023</button>
-      <button (click)="selectFilter('releaseDate:2022')">2022</button>
-      <button (click)="selectFilter('releaseDate:2021')">2021</button>
-      <button (click)="selectFilter('releaseDate:2020')">2020</button>
-      <button (click)="selectFilter('releaseDate:2019')">2019</button>
+      <button *ngFor="let year of releaseYears" (click)="selectFilter('releaseDate:' + year)">
+        {{ year }}
+      </button>
     </header>
   </div>
 
+  <!-- Main Content -->
   <div class="content">
+    <!-- Search Bar -->
     <div class="search-container">
       <input 
         type="text" 
@@ -59,6 +45,7 @@
       <button class="search-button" (click)="onSearch()">Search</button>
     </div>
 
+    <!-- Display Selected Filters -->
     <div class="selected-filters">
       Selected Filters: 
       <span *ngFor="let filter of selectedFilter" class="filter-tag">
@@ -66,21 +53,30 @@
       </span>
     </div>
 
+    <!-- Clear Filters Button -->
     <button class="clear-filters-button" (click)="clearFilters()">Clear Filters</button>
 
+    <!-- Order Options -->
     <div class="order-options">
       <header>
         Order by:
-        <button (click)="selectFilter('sortBy:popularity')">Popularity</button>
-        <button (click)="selectFilter('sortBy:releaseDate')">Release Date</button>
-        <button (click)="selectFilter('sortBy:rating')">Rating</button>
-        <button (click)="selectFilter('sortBy:title')">Title</button>
+        <button (click)="sortBy = 'popularity'; onFilterChange()">Popularity</button>
+        <button (click)="sortBy = 'releaseDate'; onFilterChange()">Release Date</button>
+        <button (click)="sortBy = 'rating'; onFilterChange()">Rating</button>
+        <button (click)="sortBy = 'title'; onFilterChange()">Title</button>
+        <label>
+          <input type="checkbox" [(ngModel)]="ascending" (change)="onFilterChange()">
+          Ascending
+        </label>
       </header>
     </div>
 
+    <!-- Movies List -->
     <div class="movies-list">
       <div *ngFor="let movie of movies" class="movie-item">
-        <h3 (click)="viewMovieDetails(movie.id)" style="cursor: pointer;">{{ movie.title }}</h3>
+        <h3 (click)="viewMovieDetails(movie.id)" style="cursor: pointer;">
+          {{ movie.title }}
+        </h3>
         <p>{{ movie.release_date }}</p>
         <p>{{ movie.overview }}</p>
         <img [src]="getImageUrl(movie.poster_path)" alt="{{ movie.title }} poster">

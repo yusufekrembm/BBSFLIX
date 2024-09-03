@@ -38,7 +38,7 @@ public class MovieService {
 
     public MovieEntity getMovies() throws IOException {
 
-        String url = "https://api.themoviedb.org/3/movie/popular?api_key=" + apiKey + "&language=en-US&page=11";
+        String url = "https://api.themoviedb.org/3/movie/popular?api_key=" + apiKey + "&language=en-US&page=61";
         String response = restTemplate.getForObject(url, String.class);
 
         Map<String, Object> responseMap = objectMapper.readValue(response, new TypeReference<Map<String, Object>>(){});

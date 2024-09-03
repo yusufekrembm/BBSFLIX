@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common'; 
 import { Router } from '@angular/router';
 import { FrontService } from '../front.service';
+import { ResultsEntity } from '../results-entity.model';
 
 @Component({
   selector: 'app-main-menu',
@@ -14,9 +15,29 @@ import { FrontService } from '../front.service';
 export class MainMenuComponent implements OnInit {
   searchQuery: string = ''; 
   selectedFilter: string[] = []; 
-  filterOptions: string[] = []; 
+  movies: ResultsEntity[] = [];  // Uygun türde tanımladık
+  title: string = '';
+  language: string = '';
+  releaseDate: string = '';
+  genreId: number | undefined;
+  sortBy: string = 'title';
+  ascending: boolean = true;
   showFilterOptions: boolean = false; 
-  movies: any[] = [];
+
+  // Filtre seçenekleri
+  genres: string[] = [
+    'Action', 'Adventure', 'Animation', 'Comedy', 'Crime', 'Documentary',
+    'Drama', 'Family', 'Fantasy', 'History', 'Horror', 'Music', 'Mystery',
+    'Romance', 'Science Fiction', 'TV Movie', 'Thriller', 'War', 'Western'
+  ];
+  
+  languages: string[] = [
+    'English', 'Spanish', 'French', 'German', 'Chinese', 'Turkish'
+  ];
+  
+  releaseYears: string[] = [
+    '2024', '2023', '2022', '2021', '2020', '2019'
+  ];
 
   constructor(private frontService: FrontService, private router: Router) {}
 
@@ -24,10 +45,8 @@ export class MainMenuComponent implements OnInit {
     this.showMovies(); 
   }
 
-
   onSearch() {
     const filters: any = { title: this.searchQuery };
-    // Extract filter values
     this.selectedFilter.forEach(filter => {
       const [key, value] = filter.split(':');
       if (key && value) {
@@ -35,13 +54,10 @@ export class MainMenuComponent implements OnInit {
       }
     });
   
-    console.log('Filters:', filters);
-  
     this.frontService.filterAndOrderMovies(filters).subscribe({
       next: (data) => {
         if (data) {
           this.movies = data;
-          console.log('Filtered Movies:', this.movies);
         } else {
           console.error('No movies found for the given query.');
         }
@@ -52,7 +68,6 @@ export class MainMenuComponent implements OnInit {
     });
   }
   
-
   selectFilter(option: string) {
     const parts = option.split(':');
     const key = parts[0];
@@ -61,22 +76,23 @@ export class MainMenuComponent implements OnInit {
     if (key === 'genre') {
       const genreId = this.getGenreId(value);
       if (genreId !== null) {
-        // Mevcut filtrelerde varsa, güncelle, yoksa ekle
         this.updateOrAddFilter('genreId', genreId.toString());
       }
     } else if (key === 'language') {
       const languageCode = this.getLanguage(value);
       if (languageCode !== null) {
-        // Mevcut filtrelerde varsa, güncelle, yoksa ekle
         this.updateOrAddFilter('language', languageCode);
       }
+    } else if (key === 'releaseDate') {
+      this.updateOrAddFilter('releaseDate', value);
+    } else if (key === 'sortBy') {
+      this.sortBy = value;
+      this.onFilterChange();
     }
     
-    // Filtre seçeneklerini kapat
     this.showFilterOptions = false;
   }
   
-  // Mevcut filtrelerde varsa güncelle, yoksa ekle
   updateOrAddFilter(key: string, value: string) {
     const index = this.selectedFilter.findIndex(filter => filter.startsWith(key));
     if (index !== -1) {
@@ -85,15 +101,12 @@ export class MainMenuComponent implements OnInit {
       this.selectedFilter.push(`${key}:${value}`);
     }
   }
-  
-
 
   showMovies() {
     this.frontService.getAllMovies().subscribe({
       next: (data) => {
         if (data && data.results) {
           this.movies = data.results;
-          console.log(this.movies);
         } else {
           console.error('Unexpected data format:', data);
         }
@@ -149,7 +162,7 @@ export class MainMenuComponent implements OnInit {
     this.showMovies();
   }
 
-  viewMovieDetails(id: string): void {
+  viewMovieDetails(id: number): void {
     this.router.navigate(['/watchMovies', id]);
   }
 
@@ -157,4 +170,23 @@ export class MainMenuComponent implements OnInit {
     return `https://image.tmdb.org/t/p/w500${path}`;
   }
 
+  loadMovies(): void {
+    const params = {
+      title: this.title,
+      language: this.language,
+      releaseDate: this.releaseDate,
+      genreId: this.genreId,
+      sortBy: this.sortBy,
+      ascending: this.ascending
+    };
+  
+    this.frontService.filterAndOrderMovies(params).subscribe(
+      (data: ResultsEntity[]) => this.movies = data,
+      error => console.error('Error fetching movies', error)
+    );
+  }
+  
+  onFilterChange(): void {
+    this.loadMovies();
+  }
 }
