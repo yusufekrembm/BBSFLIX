@@ -15,7 +15,7 @@ import { ResultsEntity } from '../results-entity.model';
 export class MainMenuComponent implements OnInit {
   searchQuery: string = ''; 
   selectedFilter: string[] = []; 
-  movies: ResultsEntity[] = [];  // Uygun türde tanımladık
+  movies: ResultsEntity[] = []; 
   title: string = '';
   language: string = '';
   releaseDate: string = '';
@@ -23,8 +23,8 @@ export class MainMenuComponent implements OnInit {
   sortBy: string = 'title';
   ascending: boolean = true;
   showFilterOptions: boolean = false; 
+  errorMessage: string = '';
 
-  // Filtre seçenekleri
   genres: string[] = [
     'Action', 'Adventure', 'Animation', 'Comedy', 'Crime', 'Documentary',
     'Drama', 'Family', 'Fantasy', 'History', 'Horror', 'Music', 'Mystery',
@@ -58,12 +58,13 @@ export class MainMenuComponent implements OnInit {
       next: (data) => {
         if (data) {
           this.movies = data;
+          this.errorMessage = ''; // Hata mesajını sıfırla
         } else {
-          console.error('No movies found for the given query.');
+          this.errorMessage = 'No movies found for the given query.';
         }
       },
       error: (err) => {
-        console.error('Error filtering movies:', err);
+        this.errorMessage = 'Error filtering movies: ' + err;
       }
     });
   }
@@ -107,12 +108,13 @@ export class MainMenuComponent implements OnInit {
       next: (data) => {
         if (data && data.results) {
           this.movies = data.results;
+          this.errorMessage = ''; // Hata mesajını sıfırla
         } else {
-          console.error('Unexpected data format:', data);
+          this.errorMessage = 'Unexpected data format.';
         }
       },
       error: (err) => {
-        console.error('Error fetching movies:', err);
+        this.errorMessage = 'Error fetching movies: ' + err;
       }
     });
   }
@@ -181,11 +183,16 @@ export class MainMenuComponent implements OnInit {
     };
   
     this.frontService.filterAndOrderMovies(params).subscribe(
-      (data: ResultsEntity[]) => this.movies = data,
-      error => console.error('Error fetching movies', error)
+      (data: ResultsEntity[]) => {
+        this.movies = data;
+        this.errorMessage = ''; // Hata mesajını sıfırla
+      },
+      (error) => {
+        this.errorMessage = 'Error fetching movies: ' + error;
+      }
     );
   }
-  
+
   onFilterChange(): void {
     this.loadMovies();
   }

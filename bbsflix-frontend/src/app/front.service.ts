@@ -13,36 +13,18 @@ export class FrontService {
   constructor(private http: HttpClient) { }
 
   getAllMovies(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/allMovies`);
+    return this.http.get<any>(`${this.baseUrl}/allMovies`).pipe(
+      catchError(this.handleError)
+    );
   }
 
   getMovieById(id: string): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/movie/${id}?api_key=YOUR_API_KEY`);
+    return this.http.get<any>(`${this.baseUrl}/movie/${id}?api_key=YOUR_API_KEY`).pipe(
+      catchError(this.handleError)
+    );
   }
 
-  filterAndOrderMovies(filters: any): Observable<any> {
-    let params = new HttpParams()
-      .set('sortBy', filters.sortBy || 'title')
-      .set('ascending', filters.ascending !== undefined ? filters.ascending.toString() : 'true');
-
-    if (filters.title) {
-      params = params.set('title', filters.title);
-    }
-
-    if (filters.genreId) {
-      params = params.set('genreId', filters.genreId);
-    }
-
-    if (filters.language) {
-      params = params.set('language', filters.language);
-    }
-
-    console.log('Request URL:', `${this.baseUrl}/filterAndOrderMovies?${params.toString()}`);
-
-    return this.http.get(`${this.baseUrl}/filterAndOrderMovies`, { params });
-  }
-
-  ffilterAndOrderMovies(params: {
+  filterAndOrderMovies(params: {
     title?: string;
     language?: string;
     releaseDate?: string;
@@ -57,11 +39,12 @@ export class FrontService {
     if (params.genreId) httpParams = httpParams.set('genreId', params.genreId.toString());
     if (params.sortBy) httpParams = httpParams.set('sortBy', params.sortBy);
     if (params.ascending !== undefined) httpParams = httpParams.set('ascending', params.ascending.toString());
-  
+
     return this.http.get<ResultsEntity[]>(`${this.baseUrl}/filterAndOrderMovies`, { params: httpParams }).pipe(
       catchError(this.handleError)
     );
   }
+
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'An unknown error occurred!';
     if (error.error instanceof ErrorEvent) {
@@ -71,13 +54,7 @@ export class FrontService {
       // Backend returned an unsuccessful response code
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-    // Here you could log the error to an external service if needed
+    console.error(errorMessage); // Hata mesajını konsola yazdırın
     return throwError(errorMessage);
   }
-  
-
-
-
-
-
 }

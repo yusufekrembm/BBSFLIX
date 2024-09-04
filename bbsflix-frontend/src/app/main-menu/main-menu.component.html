@@ -1,10 +1,8 @@
-<!-- src/app/main-menu/main-menu.component.html -->
-
 <div class="main-container">
   <!-- Sidebar with Filter Options -->
   <div class="sidebar">
     <div class="logo-container">
-      <img src="/BBSFLIX/bbsflix-fronten/dsrc/assets/logo.png" alt="Logo">
+      <img src="http://localhost:4200/Ads%C4%B1z%20tasar%C4%B1m.png" alt="Logo">
     </div>
 
     <!-- Genre Filter -->
@@ -81,6 +79,11 @@
         <p>{{ movie.overview }}</p>
         <img [src]="getImageUrl(movie.poster_path)" alt="{{ movie.title }} poster">
       </div>
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
     </div>
   </div>
 </div>
