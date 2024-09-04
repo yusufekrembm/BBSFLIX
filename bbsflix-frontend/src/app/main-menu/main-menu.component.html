@@ -2,7 +2,9 @@
   <!-- Sidebar with Filter Options -->
   <div class="sidebar">
     <div class="logo-container">
-      <img src="http://localhost:4200/Ads%C4%B1z%20tasar%C4%B1m.png" alt="Logo">
+
+      <img src="assets/bbsflixlogo.png" alt="Logo">
+
     </div>
 
     <!-- Genre Filter -->
@@ -21,13 +23,7 @@
       </button>
     </header>
 
-    <!-- Release Date Filter -->
-    <header>
-      Filter by Release Date
-      <button *ngFor="let year of releaseYears" (click)="selectFilter('releaseDate:' + year)">
-        {{ year }}
-      </button>
-    </header>
+    
   </div>
 
   <!-- Main Content -->
@@ -77,13 +73,19 @@
         </h3>
         <p>{{ movie.release_date }}</p>
         <p>{{ movie.overview }}</p>
-        <img [src]="getImageUrl(movie.poster_path)" alt="{{ movie.title }} poster">
+        <img 
+          [src]="getImageUrl(movie.poster_path)" 
+          alt="{{ movie.title }} poster" 
+          (click)="viewMovieDetails(movie.id)" 
+          style="cursor: pointer;">
       </div>
+
     </div>
 
     <!-- Error Message -->
     <div *ngIf="errorMessage" class="error-message">
       {{ errorMessage }}
     </div>
+
   </div>
 </div>
