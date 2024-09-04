@@ -81,8 +81,13 @@
         </h3>
         <p>{{ movie.release_date }}</p>
         <p>{{ movie.overview }}</p>
-        <img [src]="getImageUrl(movie.poster_path)" alt="{{ movie.title }} poster">
+        <img 
+          [src]="getImageUrl(movie.poster_path)" 
+          alt="{{ movie.title }} poster" 
+          (click)="viewMovieDetails(movie.id)" 
+          style="cursor: pointer;">
       </div>
-    </div>
+      
+      
   </div>
 </div>
