@@ -1,0 +1,91 @@
+<div class="main-container">
+  <!-- Sidebar with Filter Options -->
+  <div class="sidebar">
+    <div class="logo-container">
+
+      <img src="assets/bbsflixlogo.png" alt="Logo">
+
+    </div>
+
+    <!-- Genre Filter -->
+    <header>
+      Filter By Genre
+      <button *ngFor="let genre of genres" (click)="selectFilter('genre:' + genre)">
+        {{ genre }}
+      </button>
+    </header>
+
+    <!-- Language Filter -->
+    <header>
+      Filter by Language
+      <button *ngFor="let language of languages" (click)="selectFilter('language:' + language)">
+        {{ language }}
+      </button>
+    </header>
+
+    
+  </div>
+
+  <!-- Main Content -->
+  <div class="content">
+    <!-- Search Bar -->
+    <div class="search-container">
+      <input 
+        type="text" 
+        placeholder="Search movies..." 
+        class="search-bar" 
+        [(ngModel)]="searchQuery" 
+      />
+      <button class="search-button" (click)="onSearch()">Search</button>
+    </div>
+
+    <!-- Display Selected Filters -->
+    <div class="selected-filters">
+      Selected Filters: 
+      <span *ngFor="let filter of selectedFilter" class="filter-tag">
+        {{ filter }}
+      </span>
+    </div>
+
+    <!-- Clear Filters Button -->
+    <button class="clear-filters-button" (click)="clearFilters()">Clear Filters</button>
+
+    <!-- Order Options -->
+    <div class="order-options">
+      <header>
+        Order by:
+        <button (click)="sortBy = 'popularity'; onFilterChange()">Popularity</button>
+        <button (click)="sortBy = 'releaseDate'; onFilterChange()">Release Date</button>
+        <button (click)="sortBy = 'rating'; onFilterChange()">Rating</button>
+        <button (click)="sortBy = 'title'; onFilterChange()">Title</button>
+        <label>
+          <input type="checkbox" [(ngModel)]="ascending" (change)="onFilterChange()">
+          Ascending
+        </label>
+      </header>
+    </div>
+
+    <!-- Movies List -->
+    <div class="movies-list">
+      <div *ngFor="let movie of movies" class="movie-item">
+        <h3 (click)="viewMovieDetails(movie.id)" style="cursor: pointer;">
+          {{ movie.title }}
+        </h3>
+        <p>{{ movie.release_date }}</p>
+        <p>{{ movie.overview }}</p>
+        <img 
+          [src]="getImageUrl(movie.poster_path)" 
+          alt="{{ movie.title }} poster" 
+          (click)="viewMovieDetails(movie.id)" 
+          style="cursor: pointer;">
+      </div>
+
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+
+  </div>
+</div>
